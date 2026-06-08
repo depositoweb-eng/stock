@@ -527,5 +527,300 @@ function renderTable() {
     `Mostrando ${rows.length} de ${allRows.length} productos`;
 }
 </script>
+
+<!-- AI CHAT PANEL -->
+<style>
+  .ai-fab {
+    position: fixed;
+    bottom: 28px; right: 28px;
+    width: 54px; height: 54px;
+    border-radius: 50%;
+    background: var(--ng-green-dark);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    z-index: 100;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .ai-fab:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
+
+  .ai-panel {
+    position: fixed;
+    bottom: 92px; right: 28px;
+    width: 370px;
+    max-height: 520px;
+    background: var(--surface);
+    border: 1px solid var(--border-med);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    display: none;
+    flex-direction: column;
+    z-index: 99;
+    overflow: hidden;
+  }
+  .ai-panel.open { display: flex; }
+
+  .ai-header {
+    background: var(--ng-green-dark);
+    padding: 12px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .ai-header-left { display: flex; align-items: center; gap: 8px; }
+  .ai-header-title { color: #fff; font-size: 0.88rem; font-weight: 600; }
+  .ai-header-sub { color: rgba(255,255,255,0.55); font-size: 0.72rem; }
+  .ai-close { background: none; border: none; color: rgba(255,255,255,0.7); cursor: pointer; font-size: 18px; line-height: 1; padding: 0; }
+  .ai-close:hover { color: #fff; }
+
+  .ai-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .ai-msg {
+    max-width: 88%;
+    padding: 9px 12px;
+    border-radius: 12px;
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+  .ai-msg.user {
+    align-self: flex-end;
+    background: var(--ng-green-dark);
+    color: #fff;
+    border-bottom-right-radius: 3px;
+  }
+  .ai-msg.assistant {
+    align-self: flex-start;
+    background: var(--surface2);
+    color: var(--text);
+    border-bottom-left-radius: 3px;
+  }
+  .ai-msg.assistant.loading { color: var(--text-muted); font-style: italic; }
+
+  .ai-suggestions {
+    padding: 0 14px 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .ai-chip {
+    font-family: inherit;
+    font-size: 0.72rem;
+    padding: 4px 10px;
+    border-radius: 99px;
+    border: 1px solid var(--border-med);
+    background: var(--surface);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.1s;
+    white-space: nowrap;
+  }
+  .ai-chip:hover { border-color: var(--ng-green); color: var(--ng-green); background: var(--ng-green-light); }
+
+  .ai-input-row {
+    padding: 10px 12px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .ai-input {
+    flex: 1;
+    font-family: inherit;
+    font-size: 0.83rem;
+    padding: 8px 12px;
+    border: 1px solid var(--border-med);
+    border-radius: var(--radius);
+    outline: none;
+    background: var(--surface);
+    color: var(--text);
+  }
+  .ai-input:focus { border-color: var(--ng-green); }
+  .ai-send {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: var(--ng-green-dark);
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .ai-send:disabled { opacity: 0.4; cursor: not-allowed; }
+  .ai-no-data {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-align: center;
+    padding: 20px;
+    line-height: 1.6;
+  }
+  .ai-red-bar { height: 3px; background: var(--ng-red); }
+</style>
+
+<button class="ai-fab" onclick="toggleAI()" title="Consultar con IA">🤖</button>
+
+<div class="ai-panel" id="ai-panel">
+  <div class="ai-header">
+    <div class="ai-header-left">
+      <div>
+        <div class="ai-header-title">Asistente de Stock</div>
+        <div class="ai-header-sub">Preguntá sobre los datos cargados</div>
+      </div>
+    </div>
+    <button class="ai-close" onclick="toggleAI()">×</button>
+  </div>
+  <div class="ai-red-bar"></div>
+  <div class="ai-messages" id="ai-messages">
+    <div class="ai-msg assistant" id="ai-welcome">
+      ¡Hola! Cargá tu archivo Excel y podés preguntarme lo que quieras sobre los datos 📊
+    </div>
+  </div>
+  <div class="ai-suggestions" id="ai-chips"></div>
+  <div class="ai-input-row">
+    <input class="ai-input" id="ai-input" placeholder="Hacé una pregunta sobre el stock…" onkeydown="if(event.key==='Enter') sendAI()">
+    <button class="ai-send" id="ai-send-btn" onclick="sendAI()">➤</button>
+  </div>
+</div>
+
+<script>
+let aiOpen = false;
+let aiLoading = false;
+
+const CHIPS = [
+  "Listá todas las inconsistencias",
+  "¿Qué productos de TP tienen stk_30055 en 0?",
+  "¿Qué productos de Volta tienen stk_30055 en 0?",
+  "¿Cuántos productos no tienen stock en ningún depósito?",
+  "Resumí el estado general del stock",
+  "Productos de depósito TP con stk_tp en 0 pero con stock en Volta (hay que pedirlos a Volta)",
+  "Productos de depósito Volta con stkvolta en 0 pero con stock en TP (hay que pedirlos a TP)"
+];
+
+function toggleAI() {
+  aiOpen = !aiOpen;
+  document.getElementById('ai-panel').classList.toggle('open', aiOpen);
+  if (aiOpen && allRows.length > 0) renderChips();
+}
+
+function renderChips() {
+  const el = document.getElementById('ai-chips');
+  el.innerHTML = CHIPS.map(c =>
+    `<button class="ai-chip" onclick="askChip(this)">${c}</button>`
+  ).join('');
+}
+
+function askChip(btn) {
+  document.getElementById('ai-input').value = btn.textContent;
+  sendAI();
+}
+
+function buildContext() {
+  const total     = allRows.length;
+  const depVolta  = allRows.filter(r => r.dep === 'volta').length;
+  const depTp     = allRows.filter(r => r.dep === 'tp').length;
+  const warnCount = allRows.filter(r => r.inconsistent).length;
+  const stk30zero = allRows.filter(r => r.stk30 === 0).length;
+  const ambos0    = allRows.filter(r => r.volta === 0 && r.tp === 0).length;
+
+  const inconsistentes = allRows.filter(r => r.inconsistent).slice(0, 20).map(r =>
+    `- ${r.detalle} (cod: ${r.codigo}, dep: ${r.dep}, stkvolta: ${r.volta}, stk_tp: ${r.tp}, stk_30055: ${r.stk30})`
+  ).join('\n');
+
+  const sinStk30 = allRows.filter(r => r.stk30 === 0).slice(0, 20).map(r =>
+    `- ${r.detalle} (cod: ${r.codigo}, dep: ${r.dep}, stkvolta: ${r.volta}, stk_tp: ${r.tp})`
+  ).join('\n');
+
+  const topDiferencia = [...allRows]
+    .map(r => ({ ...r, diff: Math.abs(r.volta - r.tp) }))
+    .sort((a, b) => b.diff - a.diff)
+    .slice(0, 10)
+    .map(r => `- ${r.detalle}: stkvolta=${r.volta}, stk_tp=${r.tp}, diff=${r.diff}`)
+    .join('\n');
+
+  return `Sos un asistente de análisis de stock para New Garden, una empresa de alimentos.
+Los datos son del archivo de análisis de pedidos web con ${total} productos.
+
+RESUMEN GENERAL:
+- Total productos: ${total}
+- Depósito Volta (ubi 300-2999): ${depVolta} productos
+- Depósito TP (ubi 5990-7999): ${depTp} productos
+- Inconsistencias (dep Volta pero mayor stk_tp, o dep TP pero mayor stkvolta): ${warnCount}
+- Productos con stk_30055 = 0: ${stk30zero}
+- Productos sin stock en ningún depósito (stkvolta=0 y stk_tp=0): ${ambos0}
+
+PRODUCTOS INCONSISTENTES (primeros 20):
+${inconsistentes || 'Ninguno'}
+
+PRODUCTOS SIN STK_30055 (primeros 20):
+${sinStk30 || 'Ninguno'}
+
+TOP 10 MAYOR DIFERENCIA ENTRE DEPÓSITOS:
+${topDiferencia}
+
+Respondé de forma clara, concisa y en español. Usá listas cuando sea útil. No inventes datos que no estén en el contexto.`;
+}
+
+async function sendAI() {
+  if (aiLoading) return;
+  const input = document.getElementById('ai-input');
+  const q = input.value.trim();
+  if (!q) return;
+
+  if (allRows.length === 0) {
+    appendMsg('assistant', 'Primero cargá tu archivo Excel para poder analizar los datos.');
+    return;
+  }
+
+  appendMsg('user', q);
+  input.value = '';
+  document.getElementById('ai-chips').innerHTML = '';
+
+  const loadingEl = appendMsg('assistant', 'Analizando...', true);
+  aiLoading = true;
+  document.getElementById('ai-send-btn').disabled = true;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: buildContext(),
+        messages: [{ role: 'user', content: q }]
+      })
+    });
+
+    const data = await res.json();
+    const text = data.content?.map(b => b.text || '').join('') || 'No pude obtener respuesta.';
+    loadingEl.classList.remove('loading');
+    loadingEl.textContent = text;
+  } catch(e) {
+    loadingEl.classList.remove('loading');
+    loadingEl.textContent = 'Error al conectar con la IA. Verificá tu conexión.';
+  }
+
+  aiLoading = false;
+  document.getElementById('ai-send-btn').disabled = false;
+  renderChips();
+}
+
+function appendMsg(role, text, loading = false) {
+  const el = document.createElement('div');
+  el.className = `ai-msg ${role}${loading ? ' loading' : ''}`;
+  el.textContent = text;
+  const msgs = document.getElementById('ai-messages');
+  msgs.appendChild(el);
+  msgs.scrollTop = msgs.scrollHeight;
+  return el;
+}
+</script>
 </body>
 </html>
