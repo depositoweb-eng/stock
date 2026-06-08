@@ -514,6 +514,7 @@ function renderTable() {
       <td class="detalle-cell" title="${r.detalle}">${r.detalle}</td>
       <td class="mono" style="color:var(--text-muted)">${r.ubi}</td>
       <td>${depBadge}</td>
+      <td class="num" style="${r.stk30 === 0 ? 'color:var(--ng-red);font-weight:700;' : ''}">${r.stk30 !== null ? r.stk30.toLocaleString('es-AR') : '—'}</td>
       <td class="num">${r.volta.toLocaleString('es-AR')}</td>
       <td class="num">${r.tp.toLocaleString('es-AR')}</td>
       <td>${stockBadge}</td>
