@@ -604,5 +604,208 @@ function downloadInconsistencias() {
 }
 </script>
 
+<style>
+  .ai-fab {
+    position: fixed;
+    bottom: 28px; right: 28px;
+    width: 54px; height: 54px;
+    border-radius: 50%;
+    background: var(--ng-green-dark);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    z-index: 9999;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .ai-fab:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
+
+  .ai-panel {
+    position: fixed;
+    bottom: 92px; right: 28px;
+    width: 350px;
+    background: var(--surface);
+    border: 1px solid var(--border-med);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    display: none;
+    flex-direction: column;
+    z-index: 9999;
+    overflow: hidden;
+    font-family: inherit;
+  }
+  .ai-panel.open { display: flex; }
+
+  .ai-header {
+    background: var(--ng-green-dark);
+    padding: 12px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .ai-header-title { color: #fff; font-size: 0.88rem; font-weight: 600; }
+  .ai-header-sub { color: rgba(255,255,255,0.55); font-size: 0.72rem; }
+  .ai-close { background: none; border: none; color: rgba(255,255,255,0.7); cursor: pointer; font-size: 18px; padding: 0; line-height: 1; }
+  .ai-close:hover { color: #fff; }
+  
+  .ai-body { padding: 14px; display: flex; flex-direction: column; gap: 10px; background: var(--surface); }
+  .ai-status-text { font-size: 0.78rem; color: var(--text-muted); margin: 0; line-height: 1.4; }
+  .ai-input {
+    width: 100%;
+    font-family: inherit;
+    font-size: 0.83rem;
+    padding: 8px 12px;
+    border: 1px solid var(--border-med);
+    border-radius: var(--radius);
+    outline: none;
+    background: var(--surface);
+    color: var(--text);
+    box-sizing: border-box;
+  }
+  .ai-input:focus { border-color: var(--ng-green); }
+  
+  .ai-btn-row { display: flex; justify-content: space-between; align-items: center; margin-top: 4px; }
+  .ai-btn-action {
+    padding: 8px 16px;
+    background: var(--ng-green);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.8rem;
+  }
+  .ai-btn-key { background: none; border: none; color: var(--ng-red); cursor: pointer; font-size: 0.7rem; padding: 0; font-weight: 500; }
+  .ai-red-bar { height: 3px; background: var(--ng-red); }
+</style>
+
+<button class="ai-fab" onclick="toggleAI()" title="Comandos de IA">🤖</button>
+
+<div class="ai-panel" id="ai-panel">
+  <div class="ai-header">
+    <div>
+      <div class="ai-header-title">Automatización IA</div>
+      <div class="ai-header-sub">Pedile que aplique filtros por vos</div>
+    </div>
+    <button class="ai-close" onclick="toggleAI()">×</button>
+  </div>
+  <div class="ai-red-bar"></div>
+  
+  <div class="ai-body">
+    <p class="ai-status-text" id="ai-status-display">Decile a Gemini qué buscar. Ejemplo: <i>"Mostrame solo las inconsistencias de Volta"</i> o <i>"Filtra los productos sin stock en el depósito 30055"</i>.</p>
+    <input class="ai-input" id="ai-input" placeholder="¿Qué filtros querés aplicar?..." onkeydown="if(event.key==='Enter') ejecutarFiltroIA()">
+    
+    <div class="ai-btn-row">
+      <button class="ai-btn-key" onclick="localStorage.removeItem('mi_gemini_key'); location.reload();">🔄 Restablecer Clave API</button>
+      <button class="ai-btn-action" id="ai-exec-btn" onclick="ejecutarFiltroIA()">Aplicar</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { GoogleGenAI } from "https://esm.run/@google/genai";
+
+  // Hacer funciones disponibles globalmente para los atributos onclick de los elementos HTML nativos
+  window.toggleAI = function() {
+    const panel = document.getElementById('ai-panel');
+    panel.classList.toggle('open');
+    if (panel.classList.contains('open')) {
+      document.getElementById('ai-input').focus();
+    }
+  }
+
+  // Inicialización Segura de la Llave API de Gemini
+  let apiKey = localStorage.getItem("mi_gemini_key");
+  if (!apiKey) {
+    document.querySelector('.ai-fab').addEventListener('click', function verificarClave() {
+      if (!localStorage.getItem("mi_gemini_key")) {
+        const key = prompt("Por favor, introduce tu API Key de Gemini para activar el controlador:");
+        if (key) {
+          localStorage.setItem("mi_gemini_key", key.trim());
+          location.reload();
+        }
+      }
+    });
+  }
+
+  const ai = apiKey ? new GoogleGenAI({ apiKey: apiKey }) : null;
+
+  window.ejecutarFiltroIA = async function() {
+    const input = document.getElementById('ai-input');
+    const statusText = document.getElementById('ai-status-display');
+    const q = input.value.trim();
+
+    if (!q) return;
+
+    if (allRows.length === 0) {
+      alert("Primero cargá un archivo Excel para poder manipular los filtros.");
+      return;
+    }
+
+    if (!ai) {
+      const key = prompt("Introduce tu API Key de Gemini:");
+      if (key) { localStorage.setItem("mi_gemini_key", key.trim()); location.reload(); }
+      return;
+    }
+
+    statusText.innerText = "Gemini interpretando comando... 🧠⚡";
+    input.value = '';
+
+    try {
+      // Le pedimos a Gemini que traduzca el lenguaje natural a opciones exactas de tus selectores actuales
+      const respuesta = await ai.models.generateContent({
+        model: 'gemini-2.5-flash',
+        config: {
+          responseMimeType: "application/json",
+        },
+        contents: `
+          Analizá la solicitud del usuario para filtrar una tabla de control de stock de una distribuidora de alimentos (New Garden).
+          Debes mapear la solicitud a los valores exactos correspondientes de los selectores HTML del sistema.
+
+          Los selectores válidos de la interfaz y sus opciones disponibles son:
+          1. filter-dep (Filtro por depósito): "all", "volta", "tp"
+          2. filter-stock (Filtro comparación de stock): "all", "volta", "tp", "igual"
+          3. filter-stk30 (Filtro depósito específico 30055): "all", "zero", "constock"
+          4. filter-inc (Filtro inconsistencias): "all", "inc", "ok"
+          5. search (Texto de búsqueda libre por código o descripción): Cadena de texto limpia o vacía "" si no aplica
+
+          Solicitud del usuario: "${q}"
+
+          Devolvé exclusivamente un objeto JSON con esta estructura exacta, rellenando con las opciones listadas arriba según corresponda:
+          {
+            "dep": "all|volta|tp",
+            "stock": "all|volta|tp|igual",
+            "stk30": "all|zero|constock",
+            "inc": "all|inc|ok",
+            "search": "texto_a_buscar_o_vacio"
+          }
+        `,
+      });
+
+      // Procesamos el JSON devuelto por Gemini
+      const configuracionFiltros = JSON.parse(respuesta.text);
+      console.log("Comando IA mapeado:", configuracionFiltros);
+
+      // APLICACIÓN FÍSICA DIRECTA EN TUS CONTROLES DE PANTALLA REALES
+      document.getElementById('filter-dep').value = configuracionFiltros.dep || 'all';
+      document.getElementById('filter-stock').value = configuracionFiltros.stock || 'all';
+      document.getElementById('filter-stk30').value = configuracionFiltros.stk30 || 'all';
+      document.getElementById('filter-inc').value = configuracionFiltros.inc || 'all';
+      document.getElementById('search').value = configuracionFiltros.search || '';
+
+      // Forzar la ejecución de tu función nativa de renderizado para impactar la tabla con tus 400+ productos
+      renderTable();
+
+      statusText.innerHTML = `✅ ¡Filtros aplicados!<br><b>Búsqueda:</b> "${configuracionFiltros.search || 'Ninguna'}" · <b>Estado:</b> ${configuracionFiltros.inc}`;
+      
+      // Cerrar la burbuja automáticamente tras un lapso breve para ver los cambios
+      setTimeout(() => { document.getElementById('ai-panel').classList.remove('open'); }, 1500);
+
+    } catch (e) {
+      statusText.innerText = "❌ No entendí el comando de filtros. Intentá de otra forma.";
+      console.error(e);
+    }
+  }
+</script>
 </body>
 </html>
