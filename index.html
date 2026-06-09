@@ -824,82 +824,115 @@ function appendMsg(role, text, loading = false) {
 }
 </script>
 </body>
-  <div style="margin: 20px; padding: 20px; border: 1px solid var(--border-med); border-radius: var(--radius-lg); background-color: var(--surface); font-family: var(--font-family); box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-  <h3 style="margin-top: 0; color: var(--ng-green-dark); display: flex; align-items: center; gap: 8px;">🤖 Asistente Virtual Gemini</h3>
-  <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 15px;">Pregúntame sobre los productos cargados, faltantes o totales.</p>
+<button id="btn-flotante-ia" style="position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; border-radius: 50%; background: var(--ng-green, #006838); color: white; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.3); cursor: pointer; font-size: 28px; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: transform 0.2s;">
+  🤖
+</button>
+
+<div id="ventana-chat-ia" style="display: none; position: fixed; bottom: 90px; right: 20px; width: 350px; max-height: 500px; border: 1px solid var(--border-med, #ccc); border-radius: var(--radius-lg, 12px); background-color: var(--surface, #fff); box-shadow: 0 5px 15px rgba(0,0,0,0.2); font-family: var(--font-family, sans-serif); z-index: 9999; flex-direction: column; overflow: hidden;">
   
-  <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-    <input type="text" id="pregunta-ia" placeholder="Ej: ¿Qué productos tienen poco stock?" style="flex: 1; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 14px;">
-    <button id="btn-buscar-ia" style="padding: 10px 20px; background: var(--ng-green); color: white; border: none; border-radius: var(--radius); cursor: pointer; font-weight: bold; transition: background 0.2s;">Preguntar</button>
+  <div style="background: var(--ng-green-dark, #004d28); color: white; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold;">
+    <span style="display: flex; align-items: center; gap: 8px;">🤖 Asistente Gemini</span>
+    <button id="btn-cerrar-ia" style="background: none; border: none; color: white; cursor: pointer; font-size: 16px; font-weight: bold;">✖</button>
   </div>
-  
-  <div id="resultado-ia" style="margin-top: 15px; padding: 12px; background: var(--surface2); border-radius: var(--radius); font-size: 14px; color: var(--text); white-space: pre-line; line-height: 1.5;">
-    La respuesta aparecerá aquí...
+
+  <div style="padding: 15px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 10px; background-color: var(--surface);">
+    <p style="font-size: 13px; color: var(--text-muted, #555); margin: 0;">Pregúntame sobre productos cargados, faltantes o control de stock.</p>
+    
+    <div id="resultado-ia" style="padding: 12px; background: var(--surface2, #f8f9fa); border-radius: var(--radius, 6px); font-size: 13px; color: var(--text, #333); white-space: pre-line; line-height: 1.4; max-height: 250px; overflow-y: auto; border: 1px solid var(--border);">
+      ¡Hola! ¿En qué te puedo ayudar con el stock hoy?
+    </div>
+
+    <div style="display: flex; gap: 8px; margin-top: auto;">
+      <input type="text" id="pregunta-ia" placeholder="Ej: ¿Qué productos tienen stock cero?" style="flex: 1; padding: 10px; border: 1px solid var(--border, #ccc); border-radius: var(--radius, 4px); font-size: 13px; background: var(--surface);">
+      <button id="btn-buscar-ia" style="padding: 10px 14px; background: var(--ng-green, #006838); color: white; border: none; border-radius: var(--radius, 4px); cursor: pointer; font-weight: bold; font-size: 13px;">Enviar</button>
+    </div>
+
+    <button onclick="localStorage.removeItem('mi_gemini_key'); location.reload();" style="background: none; border: none; color: var(--ng-red, #dc3545); cursor: pointer; font-size: 11px; padding: 0; align-self: flex-start; margin-top: 5px; font-weight: 500;">🔄 Cambiar API Key</button>
   </div>
-  
-  <button onclick="localStorage.removeItem('mi_gemini_key'); location.reload();" style="margin-top: 15px; background: none; border: none; color: var(--ng-red); cursor: pointer; font-size: 12px; padding: 0; font-weight: 500;">🔄 Restablecer / Cambiar Clave API</button>
 </div>
 
 <script type="module">
   import { GoogleGenAI } from "https://esm.run/@google/genai";
 
-  // 1. Verificar si ya tenemos guardada la clave en el navegador
+  const btnFlotante = document.getElementById("btn-flotante-ia");
+  const ventanaChat = document.getElementById("ventana-chat-ia");
+  const btnCerrar = document.getElementById("btn-cerrar-ia");
+
+  // 1. Mostrar / Ocultar ventana al hacer clic
+  btnFlotante.addEventListener("click", () => {
+    if (ventanaChat.style.display === "none" || ventanaChat.style.display === "") {
+      ventanaChat.style.display = "flex";
+      btnFlotante.style.transform = "scale(0.9)";
+    } else {
+      ventanaChat.style.display = "none";
+      btnFlotante.style.transform = "scale(1)";
+    }
+  });
+
+  btnCerrar.addEventListener("click", () => {
+    ventanaChat.style.display = "none";
+    btnFlotante.style.transform = "scale(1)";
+  });
+
+  // 2. Control seguro de la API Key en el navegador
   let apiKey = localStorage.getItem("mi_gemini_key");
-
   if (!apiKey) {
-    apiKey = prompt("Por favor, introduce tu API Key de Gemini para activar el asistente:");
-    if (apiKey) {
-      localStorage.setItem("mi_gemini_key", apiKey.trim());
-    }
-  }
-
-  let ai = null;
-  if (apiKey) {
-    ai = new GoogleGenAI({ apiKey: apiKey });
-  }
-
-  // 2. Función para obtener los datos que tu página ya está usando
- function obtenerDatosDeMiStock() {
-  try {
-    const filas = document.querySelectorAll("table tbody tr");
-    if (filas.length === 0) {
-      const filasDiv = document.querySelectorAll(".fila, [class*='fila'], tr");
-      if (filasDiv.length > 0) {
-        return Array.from(filasDiv).slice(0, 120).map(f => f.innerText.replace(/\s+/g, ' ').trim());
+    btnFlotante.addEventListener("click", function pedirClave() {
+      if (!localStorage.getItem("mi_gemini_key")) {
+        apiKey = prompt("Por favor, introduce tu API Key de Gemini para activar el asistente:");
+        if (apiKey) {
+          localStorage.setItem("mi_gemini_key", apiKey.trim());
+          location.reload();
+        }
       }
-      return "No se detectaron filas cargadas en la pantalla aún.";
-    }
-    
-    let listaProductos = [];
-    filas.forEach((fila, indice) => {
-      if (indice < 120) { 
-        listaProductos.push(fila.innerText.replace(/\s+/g, ' ').trim());
-      }
+      btnFlotante.removeEventListener("click", pedirClave);
     });
-    return listaProductos;
-  } catch(e) {
-    console.error("Error al leer la tabla:", e);
-    return "Error al extraer los datos de la pantalla.";
   }
-}
 
-  // 3. Acción del botón Preguntar
+  let ai = apiKey ? new GoogleGenAI({ apiKey: apiKey }) : null;
+
+  // 3. Raspado dinámico de la tabla real en pantalla
+  function obtenerDatosDeMiStock() {
+    try {
+      const filas = document.querySelectorAll("table tbody tr");
+      if (filas.length === 0) {
+        const filasDiv = document.querySelectorAll(".fila, [class*='fila'], tr");
+        if (filasDiv.length > 0) {
+          return Array.from(filasDiv).slice(0, 120).map(f => f.innerText.replace(/\s+/g, ' ').trim());
+        }
+        return "No se detectaron filas cargadas en la tabla aún.";
+      }
+      
+      let listaProductos = [];
+      filas.forEach((fila, indice) => {
+        if (indice < 120) { 
+          listaProductos.push(fila.innerText.replace(/\s+/g, ' ').trim());
+        }
+      });
+      return listaProductos;
+    } catch(e) {
+      return "Error al extraer los datos de la pantalla.";
+    }
+  }
+
+  // 4. Envío de datos y consulta a Gemini
   document.getElementById("btn-buscar-ia").addEventListener("click", async () => {
     if (!ai) {
-      alert("Falta la API Key. Recarga la página para ingresarla.");
-      location.reload();
+      apiKey = prompt("Por favor, introduce tu API Key de Gemini:");
+      if (apiKey) {
+        localStorage.setItem("mi_gemini_key", apiKey.trim());
+        location.reload();
+      }
       return;
     }
 
     const pregunta = document.getElementById("pregunta-ia").value.trim();
     const pantalla = document.getElementById("resultado-ia");
 
-    if (!pregunta) {
-      alert("Por favor, escribe una pregunta primero.");
-      return;
-    }
+    if (!pregunta) return;
 
     pantalla.innerText = "Pensando... 🧠⏳";
+    document.getElementById("pregunta-ia").value = "";
 
     const miStockActual = obtenerDatosDeMiStock();
 
@@ -907,20 +940,20 @@ function appendMsg(role, text, loading = false) {
       const respuesta = await ai.models.generateContent({
         model: 'gemini-2.5-flash',
         contents: `
-          Actúas como el asistente de control de stock y logística de este negocio.
-          Aquí tienes la lista actual de nuestro inventario en formato de datos: ${JSON.stringify(miStockActual)}.
-          
-          Responde a la siguiente pregunta del usuario de forma clara, profesional y en español:
-          "${pregunta}"
+          Actúas como el asistente de stock y gestión logística de esta empresa.
+          Aquí tienes las primeras 120 líneas de datos actuales de la tabla en pantalla: ${JSON.stringify(miStockActual)}.
+          Responde de forma clara, directa y en español a la siguiente consulta del usuario: "${pregunta}"
         `,
       });
 
       pantalla.innerText = respuesta.text;
 
     } catch (error) {
-      pantalla.innerText = "❌ Error al conectar con la IA. Verifica que tu clave sea correcta.";
+      pantalla.innerText = "❌ Error. Verifica tu clave API.";
       console.error(error);
     }
   });
 </script>
+</body>
+</html>
 </html>
