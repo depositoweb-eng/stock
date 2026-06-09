@@ -859,23 +859,29 @@ function appendMsg(role, text, loading = false) {
   }
 
   // 2. Función para obtener los datos que tu página ya está usando
-  function obtenerDatosDeMiStock() {
-    try {
-      // Como tu app usa Excel, intentamos buscar las variables globales donde guardas el resultado.
-      // Si usas una variable llamada 'productos', 'data' o 'stockData', Gemini intentará leerla automáticamente.
-      // Por ahora, si no encuentra nada, usará estos datos de prueba para que verifiques que funciona:
-      if (typeof data !== 'undefined') return data;
-      if (typeof productos !== 'undefined') return productos;
-      
-      return [
-        { "Producto": "Zapatillas", "Stock": 15, "Precio": 50 },
-        { "Producto": "Remeras", "Stock": 2, "Precio": 20 },
-        { "Producto": "Pantalones", "Stock": 0, "Precio": 40 }
-      ];
-    } catch(e) {
-      return "No se pudo acceder a la variable de stock automáticamente.";
+ function obtenerDatosDeMiStock() {
+  try {
+    const filas = document.querySelectorAll("table tbody tr");
+    if (filas.length === 0) {
+      const filasDiv = document.querySelectorAll(".fila, [class*='fila'], tr");
+      if (filasDiv.length > 0) {
+        return Array.from(filasDiv).slice(0, 120).map(f => f.innerText.replace(/\s+/g, ' ').trim());
+      }
+      return "No se detectaron filas cargadas en la pantalla aún.";
     }
+    
+    let listaProductos = [];
+    filas.forEach((fila, indice) => {
+      if (indice < 120) { 
+        listaProductos.push(fila.innerText.replace(/\s+/g, ' ').trim());
+      }
+    });
+    return listaProductos;
+  } catch(e) {
+    console.error("Error al leer la tabla:", e);
+    return "Error al extraer los datos de la pantalla.";
   }
+}
 
   // 3. Acción del botón Preguntar
   document.getElementById("btn-buscar-ia").addEventListener("click", async () => {
