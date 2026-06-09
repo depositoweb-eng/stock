@@ -121,18 +121,19 @@
   #status.err { color: var(--ng-red); font-weight: 500; }
 
   /* ── SUMMARY CARDS ── */
-  .summary { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 1.8rem; }
+  .summary { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 1.8rem; }
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 1rem 1.1rem;
+    border-radius: var(--radius);
+    padding: 1.2rem 1.2rem;
     display: flex; flex-direction: column; gap: 10px;
     transition: box-shadow 0.15s;
+    min-height: 110px;
   }
   .card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
   .card-icon {
-    width: 36px; height: 36px; border-radius: 10px;
+    width: 36px; height: 36px; border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
     font-size: 17px;
   }
@@ -140,8 +141,8 @@
   .card-icon.red   { background: var(--ng-red-light); }
   .card-icon.amber { background: var(--amber-bg); }
   .card-icon.gray  { background: #f0f2f0; }
-  .card-body { display: flex; flex-direction: column; gap: 2px; }
-  .card-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600; }
+  .card-body { display: flex; flex-direction: column; gap: 3px; }
+  .card-label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; white-space: normal; line-height: 1.3; }
   .card-value { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
   .card-value.green { color: var(--ng-green); }
   .card-value.red   { color: var(--ng-red); }
@@ -177,7 +178,7 @@
     overflow: hidden; overflow-x: auto;
     box-shadow: 0 1px 4px rgba(0,0,0,0.05);
   }
-  table { width: 100%; border-collapse: collapse; font-size: 0.84rem; min-width: 820px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.75rem; min-width: unset; width: 100%; }
   thead tr { background: var(--ng-green-dark); }
   thead th {
     text-align: left; padding: 11px 14px;
@@ -197,21 +198,21 @@
   tbody tr.inconsistent:nth-child(odd)  td { background: #fffdf7; }
   tbody tr.inconsistent:hover td { background: #fef3d0 !important; }
 
-  td { padding: 9px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  td { padding: 6px 6px; border-bottom: 1px solid var(--border); vertical-align: middle; }
   tr:last-child td { border-bottom: none; }
 
-  .mono { font-family: 'DM Mono', monospace; font-size: 0.78rem; }
-  .detalle-cell { max-width: 210px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
+  .mono { font-family: 'DM Mono', monospace; font-size: 0.7rem; }
+  .detalle-cell { max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
   .num { text-align: right; font-variant-numeric: tabular-nums; font-family: 'DM Mono', monospace; font-weight: 500; }
 
-  .badge { display: inline-block; padding: 3px 10px; border-radius: 99px; font-size: 0.7rem; font-weight: 700; white-space: nowrap; letter-spacing: 0.02em; }
+  .badge { display: inline-block; padding: 2px 6px; border-radius: 99px; font-size: 0.65rem; font-weight: 700; white-space: nowrap; letter-spacing: 0.02em; }
   .b-volta { background: var(--ng-green-light); color: var(--ng-green); }
   .b-tp    { background: var(--ng-red-light);   color: var(--ng-red); }
   .b-igual { background: #f0f2f0; color: #666; }
   .b-ok    { background: #f0f2f0; color: #888; font-size: 0.68rem; }
   .b-warn  { background: var(--amber-bg); color: var(--amber); }
 
-  .dep { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 99px; font-size: 0.7rem; font-weight: 700; }
+  .dep { display: inline-flex; align-items: center; gap: 2px; padding: 2px 6px; border-radius: 99px; font-size: 0.65rem; font-weight: 700; }
   .dep-volta { background: var(--ng-green-light); color: var(--ng-green); }
   .dep-tp    { background: var(--ng-red-light);   color: var(--ng-red); }
   .bar-bg { flex: 1; height: 6px; background: #eee; border-radius: 3px; overflow: hidden; }
@@ -219,6 +220,43 @@
 
   #row-count { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.6rem; text-align: right; }
   #results { display: none; }
+
+  /* Observations */
+  .obs-input {
+    width: 100%;
+    min-width: 120px;
+    padding: 4px 7px;
+    font-family: inherit;
+    font-size: 0.72rem;
+    border: 1px solid var(--border-med);
+    border-radius: 6px;
+    background: #fff;
+    color: var(--text);
+    resize: vertical;
+    min-height: 32px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .obs-input:focus { border-color: var(--ng-green); }
+
+  .btn-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--ng-green-dark);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    padding: 9px 18px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    margin-bottom: 1rem;
+  }
+  .btn-download:hover { opacity: 0.88; }
+  .btn-download:disabled { opacity: 0.4; cursor: not-allowed; }
 </style>
 </head>
 <body>
@@ -294,6 +332,10 @@
     </div>
     </div>
 
+    <button class="btn-download" id="btn-download" onclick="downloadInconsistencias()" disabled>
+      ⬇ Descargar inconsistencias con observaciones
+    </button>
+
     <div class="controls">
       <input type="text" id="search" placeholder="Buscar por código o descripción…">
       <select id="filter-dep">
@@ -325,13 +367,15 @@
           <tr>
             <th onclick="sortBy('codigo')">Código <span id="sort-codigo"></span></th>
             <th onclick="sortBy('detalle')">Detalle <span id="sort-detalle"></span></th>
-            <th onclick="sortBy('ubi')">Ubicación <span id="sort-ubi"></span></th>
-            <th onclick="sortBy('deposito')">Depósito <span id="sort-deposito"></span></th>
-            <th onclick="sortBy('stk30')" style="text-align:right">stk_30055 <span id="sort-stk30"></span></th>
-            <th onclick="sortBy('volta')" style="text-align:right">stkvolta <span id="sort-volta"></span></th>
-            <th onclick="sortBy('tp')" style="text-align:right">stk_tp <span id="sort-tp"></span></th>
-            <th onclick="sortBy('winner')">Mayor stock <span id="sort-winner"></span></th>
+            <th onclick="sortBy('ubi')">Ubic. <span id="sort-ubi"></span></th>
+            <th onclick="sortBy('deposito')">Dep. <span id="sort-deposito"></span></th>
+            <th onclick="sortBy('pedweb')" style="text-align:right">Ped.Web <span id="sort-pedweb"></span></th>
+            <th onclick="sortBy('stk30')" style="text-align:right">STK30055 <span id="sort-stk30"></span></th>
+            <th onclick="sortBy('volta')" style="text-align:right">STKVOLTA <span id="sort-volta"></span></th>
+            <th onclick="sortBy('tp')" style="text-align:right">STK_TP <span id="sort-tp"></span></th>
+            <th onclick="sortBy('winner')">Mayor <span id="sort-winner"></span></th>
             <th onclick="sortBy('inconsistent')">Estado <span id="sort-inconsistent"></span></th>
+            <th style="min-width:140px">Observación</th>
           </tr>
         </thead>
         <tbody id="tbody"></tbody>
@@ -389,7 +433,8 @@ function processFile(file) {
       const codeCol  = find(['codigo','código']);
       const detCol   = find(['detalle']);
       const ubiCol   = find(['ubi_web','ubiweb']);
-      const stk30Col = cols.find(c => c.toLowerCase() === 'stk_30055' || c.toLowerCase() === 'stk30055');
+      const stk30Col  = cols.find(c => c.toLowerCase() === 'stk_30055' || c.toLowerCase() === 'stk30055');
+      const pedWebCol = cols.find(c => c.toLowerCase() === 'ped_web' || c.toLowerCase() === 'pedweb');
 
       if (!voltaCol || !tpCol) {
         status.textContent = `✗ Columnas encontradas: ${cols.join(', ')} — no se detectaron stkvolta o stk_tp.`;
@@ -406,9 +451,10 @@ function processFile(file) {
         const inconsistent =
           (dep === 'volta' && winner === 'tp' && tp > 0) ||
           (dep === 'tp' && winner === 'volta' && volta > 0);
-        const stk30 = stk30Col ? (parseFloat(r[stk30Col]) || 0) : null;
+        const stk30  = stk30Col  ? (parseFloat(r[stk30Col])  || 0) : null;
+        const pedweb = pedWebCol ? (parseFloat(r[pedWebCol]) || 0) : null;
         return { codigo: codeCol ? r[codeCol] : '', detalle: detCol ? r[detCol] : '',
-                  ubi: ubi !== null ? ubi : '—', dep, volta, tp, winner, inconsistent, stk30 };
+                  ubi: ubi !== null ? ubi : '—', dep, volta, tp, winner, inconsistent, stk30, pedweb };
       });
 
       const total     = allRows.length;
@@ -440,6 +486,7 @@ function processFile(file) {
       document.getElementById('filter-inc').value = 'all';
       sortCol = null; sortDir = 1;
       renderTable();
+      enableDownload();
     } catch(err) {
       status.textContent = '✗ Error: ' + err.message;
       status.className = 'err';
@@ -454,7 +501,7 @@ function processFile(file) {
 function sortBy(col) {
   if (sortCol === col) sortDir *= -1;
   else { sortCol = col; sortDir = 1; }
-  ['codigo','detalle','ubi','deposito','stk30','volta','tp','winner','inconsistent'].forEach(c => {
+  ['codigo','detalle','ubi','deposito','pedweb','stk30','volta','tp','winner','inconsistent'].forEach(c => {
     const el = document.getElementById('sort-' + c);
     if (el) el.textContent = '';
   });
@@ -491,7 +538,8 @@ function renderTable() {
       let av, bv;
       if (sortCol === 'winner')       { av = order[a.winner]||9; bv = order[b.winner]||9; }
       else if (sortCol === 'inconsistent') { av = a.inconsistent?0:1; bv = b.inconsistent?0:1; }
-      else if (sortCol === 'stk30') { av = a.stk30 ?? 999999; bv = b.stk30 ?? 999999; }
+      else if (sortCol === 'stk30')  { av = a.stk30  ?? 999999; bv = b.stk30  ?? 999999; }
+      else if (sortCol === 'pedweb') { av = a.pedweb ?? 999999; bv = b.pedweb ?? 999999; }
       else if (sortCol === 'deposito') { av = a.dep; bv = b.dep; }
       else { av = a[sortCol]; bv = b[sortCol]; }
       if (typeof av === 'string') return sortDir * av.localeCompare(bv, 'es');
@@ -514,446 +562,47 @@ function renderTable() {
       <td class="detalle-cell" title="${r.detalle}">${r.detalle}</td>
       <td class="mono" style="color:var(--text-muted)">${r.ubi}</td>
       <td>${depBadge}</td>
+      <td class="num">${r.pedweb !== null ? r.pedweb.toLocaleString('es-AR') : '—'}</td>
       <td class="num" style="${r.stk30 === 0 ? 'color:var(--ng-red);font-weight:700;' : ''}">${r.stk30 !== null ? r.stk30.toLocaleString('es-AR') : '—'}</td>
       <td class="num">${r.volta.toLocaleString('es-AR')}</td>
       <td class="num">${r.tp.toLocaleString('es-AR')}</td>
       <td>${stockBadge}</td>
       <td>${stateBadge}</td>
-
+      <td>${r.inconsistent ? `<textarea class="obs-input" data-codigo="${r.codigo}" onchange="saveObs('${r.codigo}', this.value)" placeholder="Escribí una observación...">${observations['${r.codigo}'] || ''}</textarea>` : ''}</td>
     </tr>`;
   }).join('');
 
   document.getElementById('row-count').textContent =
     `Mostrando ${rows.length} de ${allRows.length} productos`;
 }
-</script>
 
-<!-- AI CHAT PANEL -->
-<style>
-  .ai-fab {
-    position: fixed;
-    bottom: 28px; right: 28px;
-    width: 54px; height: 54px;
-    border-radius: 50%;
-    background: var(--ng-green-dark);
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-    z-index: 100;
-    transition: transform 0.15s, box-shadow 0.15s;
-  }
-  .ai-fab:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
+// Observations
+const observations = {};
+function saveObs(codigo, value) { observations[codigo] = value; }
+function enableDownload() { document.getElementById('btn-download').disabled = false; }
 
-  .ai-panel {
-    position: fixed;
-    bottom: 92px; right: 28px;
-    width: 370px;
-    max-height: 520px;
-    background: var(--surface);
-    border: 1px solid var(--border-med);
-    border-radius: var(--radius-xl);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
-    display: none;
-    flex-direction: column;
-    z-index: 99;
-    overflow: hidden;
-  }
-  .ai-panel.open { display: flex; }
-
-  .ai-header {
-    background: var(--ng-green-dark);
-    padding: 12px 16px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .ai-header-left { display: flex; align-items: center; gap: 8px; }
-  .ai-header-title { color: #fff; font-size: 0.88rem; font-weight: 600; }
-  .ai-header-sub { color: rgba(255,255,255,0.55); font-size: 0.72rem; }
-  .ai-close { background: none; border: none; color: rgba(255,255,255,0.7); cursor: pointer; font-size: 18px; line-height: 1; padding: 0; }
-  .ai-close:hover { color: #fff; }
-
-  .ai-messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .ai-msg {
-    max-width: 88%;
-    padding: 9px 12px;
-    border-radius: 12px;
-    font-size: 0.82rem;
-    line-height: 1.5;
-  }
-  .ai-msg.user {
-    align-self: flex-end;
-    background: var(--ng-green-dark);
-    color: #fff;
-    border-bottom-right-radius: 3px;
-  }
-  .ai-msg.assistant {
-    align-self: flex-start;
-    background: var(--surface2);
-    color: var(--text);
-    border-bottom-left-radius: 3px;
-  }
-  .ai-msg.assistant.loading { color: var(--text-muted); font-style: italic; }
-
-  .ai-suggestions {
-    padding: 0 14px 10px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-  .ai-chip {
-    font-family: inherit;
-    font-size: 0.72rem;
-    padding: 4px 10px;
-    border-radius: 99px;
-    border: 1px solid var(--border-med);
-    background: var(--surface);
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: all 0.1s;
-    white-space: nowrap;
-  }
-  .ai-chip:hover { border-color: var(--ng-green); color: var(--ng-green); background: var(--ng-green-light); }
-
-  .ai-input-row {
-    padding: 10px 12px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-  .ai-input {
-    flex: 1;
-    font-family: inherit;
-    font-size: 0.83rem;
-    padding: 8px 12px;
-    border: 1px solid var(--border-med);
-    border-radius: var(--radius);
-    outline: none;
-    background: var(--surface);
-    color: var(--text);
-  }
-  .ai-input:focus { border-color: var(--ng-green); }
-  .ai-send {
-    width: 34px; height: 34px;
-    border-radius: 50%;
-    background: var(--ng-green-dark);
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 15px;
-    flex-shrink: 0;
-  }
-  .ai-send:disabled { opacity: 0.4; cursor: not-allowed; }
-  .ai-no-data {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    text-align: center;
-    padding: 20px;
-    line-height: 1.6;
-  }
-  .ai-red-bar { height: 3px; background: var(--ng-red); }
-</style>
-
-<button class="ai-fab" onclick="toggleAI()" title="Consultar con IA">🤖</button>
-
-<div class="ai-panel" id="ai-panel">
-  <div class="ai-header">
-    <div class="ai-header-left">
-      <div>
-        <div class="ai-header-title">Asistente de Stock</div>
-        <div class="ai-header-sub">Preguntá sobre los datos cargados</div>
-      </div>
-    </div>
-    <button class="ai-close" onclick="toggleAI()">×</button>
-  </div>
-  <div class="ai-red-bar"></div>
-  <div class="ai-messages" id="ai-messages">
-    <div class="ai-msg assistant" id="ai-welcome">
-      ¡Hola! Cargá tu archivo Excel y podés preguntarme lo que quieras sobre los datos 📊
-    </div>
-  </div>
-  <div class="ai-suggestions" id="ai-chips"></div>
-  <div class="ai-input-row">
-    <input class="ai-input" id="ai-input" placeholder="Hacé una pregunta sobre el stock…" onkeydown="if(event.key==='Enter') sendAI()">
-    <button class="ai-send" id="ai-send-btn" onclick="sendAI()">➤</button>
-  </div>
-</div>
-
-<script>
-let aiOpen = false;
-let aiLoading = false;
-
-const CHIPS = [
-  "Listá todas las inconsistencias",
-  "¿Qué productos de TP tienen stk_30055 en 0?",
-  "¿Qué productos de Volta tienen stk_30055 en 0?",
-  "¿Cuántos productos no tienen stock en ningún depósito?",
-  "Resumí el estado general del stock",
-  "Productos de depósito TP con stk_tp en 0 pero con stock en Volta (hay que pedirlos a Volta)",
-  "Productos de depósito Volta con stkvolta en 0 pero con stock en TP (hay que pedirlos a TP)"
-];
-
-function toggleAI() {
-  aiOpen = !aiOpen;
-  document.getElementById('ai-panel').classList.toggle('open', aiOpen);
-  if (aiOpen && allRows.length > 0) renderChips();
-}
-
-function renderChips() {
-  const el = document.getElementById('ai-chips');
-  el.innerHTML = CHIPS.map(c =>
-    `<button class="ai-chip" onclick="askChip(this)">${c}</button>`
-  ).join('');
-}
-
-function askChip(btn) {
-  document.getElementById('ai-input').value = btn.textContent;
-  sendAI();
-}
-
-function buildContext() {
-  const total     = allRows.length;
-  const depVolta  = allRows.filter(r => r.dep === 'volta').length;
-  const depTp     = allRows.filter(r => r.dep === 'tp').length;
-  const warnCount = allRows.filter(r => r.inconsistent).length;
-  const stk30zero = allRows.filter(r => r.stk30 === 0).length;
-  const ambos0    = allRows.filter(r => r.volta === 0 && r.tp === 0).length;
-
-  const inconsistentes = allRows.filter(r => r.inconsistent).slice(0, 20).map(r =>
-    `- ${r.detalle} (cod: ${r.codigo}, dep: ${r.dep}, stkvolta: ${r.volta}, stk_tp: ${r.tp}, stk_30055: ${r.stk30})`
-  ).join('\n');
-
-  const sinStk30 = allRows.filter(r => r.stk30 === 0).slice(0, 20).map(r =>
-    `- ${r.detalle} (cod: ${r.codigo}, dep: ${r.dep}, stkvolta: ${r.volta}, stk_tp: ${r.tp})`
-  ).join('\n');
-
-  const topDiferencia = [...allRows]
-    .map(r => ({ ...r, diff: Math.abs(r.volta - r.tp) }))
-    .sort((a, b) => b.diff - a.diff)
-    .slice(0, 10)
-    .map(r => `- ${r.detalle}: stkvolta=${r.volta}, stk_tp=${r.tp}, diff=${r.diff}`)
-    .join('\n');
-
-  return `Sos un asistente de análisis de stock para New Garden, una empresa de alimentos.
-Los datos son del archivo de análisis de pedidos web con ${total} productos.
-
-RESUMEN GENERAL:
-- Total productos: ${total}
-- Depósito Volta (ubi 300-2999): ${depVolta} productos
-- Depósito TP (ubi 5990-7999): ${depTp} productos
-- Inconsistencias (dep Volta pero mayor stk_tp, o dep TP pero mayor stkvolta): ${warnCount}
-- Productos con stk_30055 = 0: ${stk30zero}
-- Productos sin stock en ningún depósito (stkvolta=0 y stk_tp=0): ${ambos0}
-
-PRODUCTOS INCONSISTENTES (primeros 20):
-${inconsistentes || 'Ninguno'}
-
-PRODUCTOS SIN STK_30055 (primeros 20):
-${sinStk30 || 'Ninguno'}
-
-TOP 10 MAYOR DIFERENCIA ENTRE DEPÓSITOS:
-${topDiferencia}
-
-Respondé de forma clara, concisa y en español. Usá listas cuando sea útil. No inventes datos que no estén en el contexto.`;
-}
-
-async function sendAI() {
-  if (aiLoading) return;
-  const input = document.getElementById('ai-input');
-  const q = input.value.trim();
-  if (!q) return;
-
-  if (allRows.length === 0) {
-    appendMsg('assistant', 'Primero cargá tu archivo Excel para poder analizar los datos.');
-    return;
-  }
-
-  appendMsg('user', q);
-  input.value = '';
-  document.getElementById('ai-chips').innerHTML = '';
-
-  const loadingEl = appendMsg('assistant', 'Analizando...', true);
-  aiLoading = true;
-  document.getElementById('ai-send-btn').disabled = true;
-
-  try {
-    const res = await fetch('https://stock-ai.depositoweb.workers.dev', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 1000,
-        system: buildContext(),
-        messages: [{ role: 'user', content: q }]
-      })
-    });
-
-    const data = await res.json();
-    console.log('API response:', JSON.stringify(data));
-    const text = data.content?.map(b => b.text || '').join('') || data.error?.message || JSON.stringify(data);
-    loadingEl.classList.remove('loading');
-    loadingEl.textContent = text;
-  } catch(e) {
-    loadingEl.classList.remove('loading');
-    loadingEl.textContent = 'Error al conectar con la IA. Verificá tu conexión.';
-  }
-
-  aiLoading = false;
-  document.getElementById('ai-send-btn').disabled = false;
-  renderChips();
-}
-
-function appendMsg(role, text, loading = false) {
-  const el = document.createElement('div');
-  el.className = `ai-msg ${role}${loading ? ' loading' : ''}`;
-  el.textContent = text;
-  const msgs = document.getElementById('ai-messages');
-  msgs.appendChild(el);
-  msgs.scrollTop = msgs.scrollHeight;
-  return el;
+function downloadInconsistencias() {
+  const inconsistentes = allRows.filter(r => r.inconsistent);
+  if (inconsistentes.length === 0) return;
+  const wsData = [['Código','Detalle','Ubicación','Depósito','Ped. Web','STK_30055','stkvolta','stk_tp','Mayor Stock','Observación']];
+  inconsistentes.forEach(r => {
+    wsData.push([
+      r.codigo, r.detalle, r.ubi,
+      r.dep === 'volta' ? 'Volta' : 'TP',
+      r.pedweb ?? '', r.stk30 ?? '',
+      r.volta, r.tp,
+      r.winner === 'volta' ? 'stkvolta' : r.winner === 'tp' ? 'stk_tp' : 'iguales',
+      observations[r.codigo] || ''
+    ]);
+  });
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.aoa_to_sheet(wsData);
+  ws['!cols'] = [{wch:16},{wch:35},{wch:10},{wch:10},{wch:10},{wch:12},{wch:12},{wch:12},{wch:12},{wch:40}];
+  XLSX.utils.book_append_sheet(wb, ws, 'Inconsistencias');
+  const fecha = new Date().toISOString().slice(0,10);
+  XLSX.writeFile(wb, `inconsistencias_${fecha}.xlsx`);
 }
 </script>
+
 </body>
-<button id="btn-flotante-ia" style="position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; border-radius: 50%; background: var(--ng-green, #006838); color: white; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.3); cursor: pointer; font-size: 28px; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: transform 0.2s;">
-  🤖
-</button>
-
-<div id="ventana-chat-ia" style="display: none; position: fixed; bottom: 90px; right: 20px; width: 350px; max-height: 500px; border: 1px solid var(--border-med, #ccc); border-radius: var(--radius-lg, 12px); background-color: var(--surface, #fff); box-shadow: 0 5px 15px rgba(0,0,0,0.2); font-family: var(--font-family, sans-serif); z-index: 9999; flex-direction: column; overflow: hidden;">
-  
-  <div style="background: var(--ng-green-dark, #004d28); color: white; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold;">
-    <span style="display: flex; align-items: center; gap: 8px;">🤖 Asistente Gemini</span>
-    <button id="btn-cerrar-ia" style="background: none; border: none; color: white; cursor: pointer; font-size: 16px; font-weight: bold;">✖</button>
-  </div>
-
-  <div style="padding: 15px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 10px; background-color: var(--surface);">
-    <p style="font-size: 13px; color: var(--text-muted, #555); margin: 0;">Pregúntame sobre productos cargados, faltantes o control de stock.</p>
-    
-    <div id="resultado-ia" style="padding: 12px; background: var(--surface2, #f8f9fa); border-radius: var(--radius, 6px); font-size: 13px; color: var(--text, #333); white-space: pre-line; line-height: 1.4; max-height: 250px; overflow-y: auto; border: 1px solid var(--border);">
-      ¡Hola! ¿En qué te puedo ayudar con el stock hoy?
-    </div>
-
-    <div style="display: flex; gap: 8px; margin-top: auto;">
-      <input type="text" id="pregunta-ia" placeholder="Ej: ¿Qué productos tienen stock cero?" style="flex: 1; padding: 10px; border: 1px solid var(--border, #ccc); border-radius: var(--radius, 4px); font-size: 13px; background: var(--surface);">
-      <button id="btn-buscar-ia" style="padding: 10px 14px; background: var(--ng-green, #006838); color: white; border: none; border-radius: var(--radius, 4px); cursor: pointer; font-weight: bold; font-size: 13px;">Enviar</button>
-    </div>
-
-    <button onclick="localStorage.removeItem('mi_gemini_key'); location.reload();" style="background: none; border: none; color: var(--ng-red, #dc3545); cursor: pointer; font-size: 11px; padding: 0; align-self: flex-start; margin-top: 5px; font-weight: 500;">🔄 Cambiar API Key</button>
-  </div>
-</div>
-
-<script type="module">
-  import { GoogleGenAI } from "https://esm.run/@google/genai";
-
-  const btnFlotante = document.getElementById("btn-flotante-ia");
-  const ventanaChat = document.getElementById("ventana-chat-ia");
-  const btnCerrar = document.getElementById("btn-cerrar-ia");
-
-  // 1. Mostrar / Ocultar ventana al hacer clic
-  btnFlotante.addEventListener("click", () => {
-    if (ventanaChat.style.display === "none" || ventanaChat.style.display === "") {
-      ventanaChat.style.display = "flex";
-      btnFlotante.style.transform = "scale(0.9)";
-    } else {
-      ventanaChat.style.display = "none";
-      btnFlotante.style.transform = "scale(1)";
-    }
-  });
-
-  btnCerrar.addEventListener("click", () => {
-    ventanaChat.style.display = "none";
-    btnFlotante.style.transform = "scale(1)";
-  });
-
-  // 2. Control seguro de la API Key en el navegador
-  let apiKey = localStorage.getItem("mi_gemini_key");
-  if (!apiKey) {
-    btnFlotante.addEventListener("click", function pedirClave() {
-      if (!localStorage.getItem("mi_gemini_key")) {
-        apiKey = prompt("Por favor, introduce tu API Key de Gemini para activar el asistente:");
-        if (apiKey) {
-          localStorage.setItem("mi_gemini_key", apiKey.trim());
-          location.reload();
-        }
-      }
-      btnFlotante.removeEventListener("click", pedirClave);
-    });
-  }
-
-  let ai = apiKey ? new GoogleGenAI({ apiKey: apiKey }) : null;
-
-  // 3. Raspado dinámico de la tabla real en pantalla
-  function obtenerDatosDeMiStock() {
-    try {
-      const filas = document.querySelectorAll("table tbody tr");
-      if (filas.length === 0) {
-        const filasDiv = document.querySelectorAll(".fila, [class*='fila'], tr");
-        if (filasDiv.length > 0) {
-          return Array.from(filasDiv).slice(0, 120).map(f => f.innerText.replace(/\s+/g, ' ').trim());
-        }
-        return "No se detectaron filas cargadas en la tabla aún.";
-      }
-      
-      let listaProductos = [];
-      filas.forEach((fila, indice) => {
-        if (indice < 120) { 
-          listaProductos.push(fila.innerText.replace(/\s+/g, ' ').trim());
-        }
-      });
-      return listaProductos;
-    } catch(e) {
-      return "Error al extraer los datos de la pantalla.";
-    }
-  }
-
-  // 4. Envío de datos y consulta a Gemini
-  document.getElementById("btn-buscar-ia").addEventListener("click", async () => {
-    if (!ai) {
-      apiKey = prompt("Por favor, introduce tu API Key de Gemini:");
-      if (apiKey) {
-        localStorage.setItem("mi_gemini_key", apiKey.trim());
-        location.reload();
-      }
-      return;
-    }
-
-    const pregunta = document.getElementById("pregunta-ia").value.trim();
-    const pantalla = document.getElementById("resultado-ia");
-
-    if (!pregunta) return;
-
-    pantalla.innerText = "Pensando... 🧠⏳";
-    document.getElementById("pregunta-ia").value = "";
-
-    const miStockActual = obtenerDatosDeMiStock();
-
-    try {
-      const respuesta = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
-        contents: `
-          Actúas como el asistente de stock y gestión logística de esta empresa.
-          Aquí tienes las primeras 120 líneas de datos actuales de la tabla en pantalla: ${JSON.stringify(miStockActual)}.
-          Responde de forma clara, directa y en español a la siguiente consulta del usuario: "${pregunta}"
-        `,
-      });
-
-      pantalla.innerText = respuesta.text;
-
-    } catch (error) {
-      pantalla.innerText = "❌ Error. Verifica tu clave API.";
-      console.error(error);
-    }
-  });
-</script>
-</body>
-</html>
 </html>
