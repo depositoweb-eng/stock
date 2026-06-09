@@ -824,4 +824,97 @@ function appendMsg(role, text, loading = false) {
 }
 </script>
 </body>
+  <div style="margin: 20px; padding: 20px; border: 1px solid var(--border-med); border-radius: var(--radius-lg); background-color: var(--surface); font-family: var(--font-family); box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+  <h3 style="margin-top: 0; color: var(--ng-green-dark); display: flex; align-items: center; gap: 8px;">🤖 Asistente Virtual Gemini</h3>
+  <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 15px;">Pregúntame sobre los productos cargados, faltantes o totales.</p>
+  
+  <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+    <input type="text" id="pregunta-ia" placeholder="Ej: ¿Qué productos tienen poco stock?" style="flex: 1; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 14px;">
+    <button id="btn-buscar-ia" style="padding: 10px 20px; background: var(--ng-green); color: white; border: none; border-radius: var(--radius); cursor: pointer; font-weight: bold; transition: background 0.2s;">Preguntar</button>
+  </div>
+  
+  <div id="resultado-ia" style="margin-top: 15px; padding: 12px; background: var(--surface2); border-radius: var(--radius); font-size: 14px; color: var(--text); white-space: pre-line; line-height: 1.5;">
+    La respuesta aparecerá aquí...
+  </div>
+  
+  <button onclick="localStorage.removeItem('mi_gemini_key'); location.reload();" style="margin-top: 15px; background: none; border: none; color: var(--ng-red); cursor: pointer; font-size: 12px; padding: 0; font-weight: 500;">🔄 Restablecer / Cambiar Clave API</button>
+</div>
+
+<script type="module">
+  import { GoogleGenAI } from "https://esm.run/@google/genai";
+
+  // 1. Verificar si ya tenemos guardada la clave en el navegador
+  let apiKey = localStorage.getItem("mi_gemini_key");
+
+  if (!apiKey) {
+    apiKey = prompt("Por favor, introduce tu API Key de Gemini para activar el asistente:");
+    if (apiKey) {
+      localStorage.setItem("mi_gemini_key", apiKey.trim());
+    }
+  }
+
+  let ai = null;
+  if (apiKey) {
+    ai = new GoogleGenAI({ apiKey: apiKey });
+  }
+
+  // 2. Función para obtener los datos que tu página ya está usando
+  function obtenerDatosDeMiStock() {
+    try {
+      // Como tu app usa Excel, intentamos buscar las variables globales donde guardas el resultado.
+      // Si usas una variable llamada 'productos', 'data' o 'stockData', Gemini intentará leerla automáticamente.
+      // Por ahora, si no encuentra nada, usará estos datos de prueba para que verifiques que funciona:
+      if (typeof data !== 'undefined') return data;
+      if (typeof productos !== 'undefined') return productos;
+      
+      return [
+        { "Producto": "Zapatillas", "Stock": 15, "Precio": 50 },
+        { "Producto": "Remeras", "Stock": 2, "Precio": 20 },
+        { "Producto": "Pantalones", "Stock": 0, "Precio": 40 }
+      ];
+    } catch(e) {
+      return "No se pudo acceder a la variable de stock automáticamente.";
+    }
+  }
+
+  // 3. Acción del botón Preguntar
+  document.getElementById("btn-buscar-ia").addEventListener("click", async () => {
+    if (!ai) {
+      alert("Falta la API Key. Recarga la página para ingresarla.");
+      location.reload();
+      return;
+    }
+
+    const pregunta = document.getElementById("pregunta-ia").value.trim();
+    const pantalla = document.getElementById("resultado-ia");
+
+    if (!pregunta) {
+      alert("Por favor, escribe una pregunta primero.");
+      return;
+    }
+
+    pantalla.innerText = "Pensando... 🧠⏳";
+
+    const miStockActual = obtenerDatosDeMiStock();
+
+    try {
+      const respuesta = await ai.models.generateContent({
+        model: 'gemini-2.5-flash',
+        contents: `
+          Actúas como el asistente de control de stock y logística de este negocio.
+          Aquí tienes la lista actual de nuestro inventario en formato de datos: ${JSON.stringify(miStockActual)}.
+          
+          Responde a la siguiente pregunta del usuario de forma clara, profesional y en español:
+          "${pregunta}"
+        `,
+      });
+
+      pantalla.innerText = respuesta.text;
+
+    } catch (error) {
+      pantalla.innerText = "❌ Error al conectar con la IA. Verifica que tu clave sea correcta.";
+      console.error(error);
+    }
+  });
+</script>
 </html>
