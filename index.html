@@ -14,19 +14,25 @@
     --bg:#f0f2f0;--surface:#fff;--surface2:#f7f8f7;
     --border:rgba(0,0,0,0.08);--border-med:rgba(0,0,0,0.14);
     --text:#1a1f1a;--text-muted:#6a7068;
-    --amber:#92600a;--amber-bg:#fef3d0;--amber-border:rgba(146,96,10,0.3);
+    --amber:#92600a;--amber-bg:#fef3d0;
     --radius:8px;--radius-lg:14px;--radius-xl:20px;
   }
   body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+  /* HEADER */
   .site-header{background:var(--ng-green-dark);position:relative;overflow:hidden;}
   .site-header::before{content:'';position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,0.04);}
-  .header-inner{max-width:1400px;margin:0 auto;padding:1.2rem 2rem;display:flex;align-items:center;gap:1.2rem;position:relative;z-index:1;}
+  .header-inner{max-width:100%;margin:0 auto;padding:1.2rem 2rem;display:flex;align-items:center;gap:1.2rem;position:relative;z-index:1;}
   .header-logo{height:40px;width:auto;background:#fff;border-radius:7px;padding:4px 10px;}
   .header-divider{width:1px;height:32px;background:rgba(255,255,255,0.2);}
   .header-title h1{font-size:1.05rem;font-weight:700;color:rgba(255,255,255,0.95);}
   .header-title p{font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:1px;}
   .header-red-bar{height:4px;background:var(--ng-red);}
-  .main{max-width:1400px;margin:0 auto;padding:1.5rem 2rem 2rem;}
+
+  /* MAIN */
+  .main{padding:1.5rem 2rem 2rem;}
+
+  /* DROP ZONE */
   .drop-zone{border:2px dashed var(--border-med);border-radius:var(--radius-xl);padding:2rem;text-align:center;cursor:pointer;background:var(--surface);transition:all 0.15s;margin-bottom:1rem;}
   .drop-zone:hover,.drop-zone.over{border-color:var(--ng-green);background:var(--ng-green-light);}
   .drop-zone-icon{width:44px;height:44px;background:var(--ng-green-light);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 0.7rem;}
@@ -36,65 +42,81 @@
   #status{font-size:0.8rem;color:var(--text-muted);margin-bottom:1rem;min-height:1rem;}
   #status.ok{color:var(--ng-green);font-weight:500;}
   #status.err{color:var(--ng-red);font-weight:500;}
+
+  /* SUMMARY */
   .summary{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:1.5rem;}
   .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem 1rem;display:flex;flex-direction:column;gap:8px;min-height:100px;}
   .card-icon{width:34px;height:34px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;}
-  .card-icon.green{background:var(--ng-green-light);} .card-icon.red{background:var(--ng-red-light);} .card-icon.amber{background:var(--amber-bg);} .card-icon.gray{background:#f0f2f0;}
-  .card-label{font-size:0.68rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;font-weight:600;white-space:normal;line-height:1.3;}
+  .card-icon.green{background:var(--ng-green-light);} .card-icon.red{background:var(--ng-red-light);}
+  .card-icon.amber{background:var(--amber-bg);} .card-icon.gray{background:#f0f2f0;}
+  .card-label{font-size:0.68rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;font-weight:600;line-height:1.3;}
   .card-value{font-size:1.7rem;font-weight:700;letter-spacing:-0.03em;line-height:1;}
   .card-value.green{color:var(--ng-green);} .card-value.red{color:var(--ng-red);} .card-value.amber{color:var(--amber);}
+
+  /* CONTROLS */
   .controls{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:0.9rem;align-items:center;}
   .controls input,.controls select{font-family:inherit;font-size:0.82rem;padding:7px 10px;border:1px solid var(--border-med);border-radius:var(--radius);background:var(--surface);color:var(--text);outline:none;}
-  .controls input{flex:1;min-width:180px;}
+  .controls input{flex:1;min-width:200px;}
   .controls input:focus,.controls select:focus{border-color:var(--ng-green);}
+
+  /* DOWNLOAD */
   .btn-download{display:inline-flex;align-items:center;gap:6px;background:var(--ng-green-dark);color:#fff;border:none;border-radius:var(--radius);padding:8px 16px;font-family:inherit;font-size:0.82rem;font-weight:600;cursor:pointer;margin-bottom:0.9rem;}
   .btn-download:hover{opacity:0.88;} .btn-download:disabled{opacity:0.4;cursor:not-allowed;}
+
+  /* TABLE */
   .tbl-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-xl);overflow:hidden;overflow-x:auto;box-shadow:0 1px 4px rgba(0,0,0,0.05);}
-  table{width:100%;border-collapse:collapse;font-size:0.75rem;}
+  table{width:100%;border-collapse:collapse;font-size:0.78rem;table-layout:auto;}
   thead tr{background:var(--ng-green-dark);}
-  thead th{text-align:left;padding:7px 8px;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:rgba(255,255,255,0.75);cursor:pointer;user-select:none;white-space:nowrap;border-right:1px solid rgba(255,255,255,0.07);}
+  thead th{text-align:left;padding:9px 10px;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:rgba(255,255,255,0.75);cursor:pointer;user-select:none;white-space:nowrap;border-right:1px solid rgba(255,255,255,0.07);}
   thead th:last-child{border-right:none;} thead th:hover{color:#fff;}
   tbody tr:nth-child(even) td{background:var(--surface2);} tbody tr:nth-child(odd) td{background:var(--surface);}
   tbody tr:hover td{background:var(--ng-green-light)!important;}
   tbody tr.inconsistent:nth-child(even) td{background:#fffbf0;} tbody tr.inconsistent:nth-child(odd) td{background:#fffdf7;}
   tbody tr.inconsistent:hover td{background:#fef3d0!important;}
-  tbody tr.zero-stk30:not(.inconsistent):nth-child(even) td{background:#fff5f5;} tbody tr.zero-stk30:not(.inconsistent):nth-child(odd) td{background:#fff8f8;}
-  tr.sub-row td{background:#f0f7f0!important;font-size:0.68rem;color:var(--text-muted);padding:4px 8px;border-bottom:0.5px solid var(--border);}
+  tbody tr.zero-stk30:not(.inconsistent):nth-child(even) td{background:#fff5f5;}
+  tbody tr.zero-stk30:not(.inconsistent):nth-child(odd) td{background:#fff8f8;}
+  tr.sub-row td{background:#f0f7f0!important;font-size:0.7rem;color:var(--text-muted);padding:5px 10px;border-bottom:0.5px solid var(--border);}
   tr.sub-row:hover td{background:var(--ng-green-light)!important;}
-  td{padding:6px 8px;border-bottom:1px solid var(--border);vertical-align:middle;}
+  td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:middle;}
   tr:last-child td{border-bottom:none;}
-  .mono{font-family:'DM Mono',monospace;font-size:0.7rem;}
-  .detalle-cell{max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500;}
+  .mono{font-family:'DM Mono',monospace;font-size:0.72rem;}
   .num{text-align:right;font-variant-numeric:tabular-nums;font-family:'DM Mono',monospace;font-weight:500;}
-  .badge{display:inline-block;padding:2px 6px;border-radius:99px;font-size:0.65rem;font-weight:700;white-space:nowrap;}
+  .badge{display:inline-block;padding:3px 8px;border-radius:99px;font-size:0.68rem;font-weight:700;white-space:nowrap;}
   .b-volta{background:var(--ng-green-light);color:var(--ng-green);} .b-tp{background:var(--ng-red-light);color:var(--ng-red);}
-  .b-igual{background:#f0f2f0;color:#666;} .b-ok{background:#f0f2f0;color:#888;font-size:0.62rem;}
+  .b-igual{background:#f0f2f0;color:#666;} .b-ok{background:#f0f2f0;color:#888;font-size:0.65rem;}
   .b-warn{background:var(--amber-bg);color:var(--amber);}
-  .dep{display:inline-flex;align-items:center;gap:2px;padding:2px 6px;border-radius:99px;font-size:0.65rem;font-weight:700;}
+  .dep{display:inline-flex;align-items:center;padding:3px 8px;border-radius:99px;font-size:0.68rem;font-weight:700;}
   .dep-volta{background:var(--ng-green-light);color:var(--ng-green);} .dep-tp{background:var(--ng-red-light);color:var(--ng-red);}
-  .obs-input{width:100%;padding:4px 6px;font-family:inherit;font-size:0.7rem;border:1px solid var(--border-med);border-radius:5px;background:#fff;color:var(--text);resize:vertical;min-height:30px;outline:none;min-width:110px;}
+  .obs-input{width:100%;padding:5px 8px;font-family:inherit;font-size:0.75rem;border:1px solid var(--border-med);border-radius:5px;background:#fff;color:var(--text);resize:vertical;min-height:34px;outline:none;min-width:140px;}
   .obs-input:focus{border-color:var(--ng-green);}
   #row-count{font-size:0.75rem;color:var(--text-muted);margin-top:0.5rem;text-align:right;}
   #results{display:none;}
-  .gemini-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:1.2rem;overflow:hidden;}
-  .gemini-header{background:linear-gradient(90deg,#1a73e8,#4285f4);padding:0.9rem 1.2rem;display:flex;align-items:center;gap:8px;color:#fff;font-weight:700;font-size:0.88rem;}
-  .gemini-body{padding:1rem 1.2rem;}
-  .gemini-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:0.9rem;}
-  .gemini-chip{font-family:inherit;font-size:0.72rem;padding:5px 12px;border-radius:99px;border:1px solid #c5cae9;background:#e8eaf6;color:#3949ab;cursor:pointer;transition:all 0.1s;white-space:nowrap;}
-  .gemini-chip:hover{background:#c5cae9;}
-  .gemini-input-row{display:flex;gap:8px;}
-  .gemini-input{flex:1;font-family:inherit;font-size:0.83rem;padding:8px 12px;border:1px solid var(--border-med);border-radius:var(--radius);outline:none;}
-  .gemini-input:focus{border-color:#4285f4;}
-  .gemini-send{background:#4285f4;color:#fff;border:none;border-radius:var(--radius);padding:8px 16px;font-family:inherit;font-weight:600;font-size:0.82rem;cursor:pointer;}
-  .gemini-send:hover{background:#1a73e8;} .gemini-send:disabled{opacity:0.5;cursor:not-allowed;}
-  .gemini-result{margin-top:0.9rem;padding:0.9rem 1rem;background:var(--surface2);border-radius:var(--radius);font-size:0.82rem;line-height:1.6;display:none;border-left:3px solid #4285f4;white-space:pre-wrap;}
-  .gemini-result.show{display:block;}
-  .gemini-filter-applied{margin-top:0.6rem;font-size:0.72rem;color:#4285f4;font-weight:600;}
-  .api-key-row{display:flex;align-items:center;gap:8px;margin-bottom:0.9rem;}
-  .api-key-input{flex:1;font-family:'DM Mono',monospace;font-size:0.75rem;padding:7px 10px;border:1px solid var(--border-med);border-radius:var(--radius);outline:none;}
-  .api-key-input:focus{border-color:#4285f4;}
-  .btn-save-key{font-family:inherit;font-size:0.75rem;font-weight:600;padding:7px 14px;border-radius:var(--radius);border:none;background:#4285f4;color:#fff;cursor:pointer;}
-  .key-saved{font-size:0.72rem;color:var(--ng-green);font-weight:600;display:none;}
+
+  /* AI CHAT */
+  .ai-fab { position:fixed; bottom:24px; right:24px; width:48px; height:48px; border-radius:50%; background:var(--ng-green-dark); color:#fff; border:none; cursor:pointer; box-shadow:0 4px 16px rgba(0,0,0,0.25); display:flex; align-items:center; justify-content:center; font-size:20px; z-index:100; transition:transform 0.15s; }
+  .ai-fab:hover { transform:scale(1.1); }
+  .ai-panel { position:fixed; bottom:82px; right:24px; width:340px; max-height:500px; background:var(--surface); border:1px solid var(--border-med); border-radius:var(--radius-xl); box-shadow:0 8px 32px rgba(0,0,0,0.15); display:none; flex-direction:column; z-index:99; overflow:hidden; }
+  .ai-panel.open { display:flex; }
+  .ai-header { background:var(--ng-green-dark); padding:11px 14px; display:flex; align-items:center; justify-content:space-between; }
+  .ai-header-title { color:#fff; font-size:0.85rem; font-weight:600; }
+  .ai-header-sub { color:rgba(255,255,255,0.5); font-size:0.7rem; }
+  .ai-close { background:none; border:none; color:rgba(255,255,255,0.7); cursor:pointer; font-size:20px; line-height:1; padding:0; }
+  .ai-close:hover { color:#fff; }
+  .ai-red-bar { height:3px; background:var(--ng-red); }
+  .ai-messages { flex:1; overflow-y:auto; padding:12px; display:flex; flex-direction:column; gap:8px; }
+  .ai-msg { max-width:90%; padding:8px 11px; border-radius:10px; font-size:0.8rem; line-height:1.5; }
+  .ai-msg.user { align-self:flex-end; background:var(--ng-green-dark); color:#fff; border-bottom-right-radius:3px; }
+  .ai-msg.bot { align-self:flex-start; background:var(--surface2); color:var(--text); border-bottom-left-radius:3px; white-space:pre-wrap; }
+  .ai-msg.bot.loading { color:var(--text-muted); font-style:italic; }
+  .ai-chips { padding:0 12px 8px; display:flex; flex-wrap:wrap; gap:5px; }
+  .ai-chip { font-family:inherit; font-size:0.68rem; padding:4px 10px; border-radius:99px; border:1px solid var(--border-med); background:var(--surface); color:var(--text-muted); cursor:pointer; white-space:nowrap; }
+  .ai-chip:hover { border-color:var(--ng-green); color:var(--ng-green); background:var(--ng-green-light); }
+  .ai-input-row { padding:10px 12px; border-top:1px solid var(--border); display:flex; gap:7px; }
+  .ai-input { flex:1; font-family:inherit; font-size:0.8rem; padding:7px 10px; border:1px solid var(--border-med); border-radius:var(--radius); outline:none; }
+  .ai-input:focus { border-color:var(--ng-green); }
+  .ai-send { width:32px; height:32px; border-radius:50%; background:var(--ng-green-dark); border:none; color:#fff; cursor:pointer; font-size:14px; flex-shrink:0; }
+  .ai-send:disabled { opacity:0.4; cursor:not-allowed; }
+
 </style>
 </head>
 <body>
@@ -127,29 +149,6 @@
 
   <div id="results">
 
-    <!-- GEMINI -->
-    <div class="gemini-panel">
-      <div class="gemini-header">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-        Asistente Gemini · Preguntá sobre el stock
-      </div>
-      <div class="gemini-body">
-        <div class="api-key-row">
-          <input class="api-key-input" id="gemini-key-input" type="password" placeholder="Pegá tu API key de Gemini aquí...">
-          <button class="btn-save-key" onclick="saveGeminiKey()">Guardar</button>
-          <span class="key-saved" id="key-saved">✓ Guardada</span>
-        </div>
-        <div class="gemini-chips" id="gemini-chips"></div>
-        <div class="gemini-input-row">
-          <input class="gemini-input" id="gemini-input" placeholder="Ej: ¿Qué productos de TP no tienen stock?" onkeydown="if(event.key==='Enter') askGemini()">
-          <button class="gemini-send" id="gemini-send" onclick="askGemini()">Preguntar</button>
-        </div>
-        <div class="gemini-result" id="gemini-result"></div>
-        <div class="gemini-filter-applied" id="gemini-filter-applied"></div>
-      </div>
-    </div>
-
-    <!-- SUMMARY -->
     <div class="summary">
       <div class="card"><div class="card-icon gray">📦</div><div><div class="card-label">Total productos</div><div class="card-value" id="s-total">—</div></div></div>
       <div class="card"><div class="card-icon green">🏭</div><div><div class="card-label">Depósito Volta</div><div class="card-value green" id="s-dep-volta">—</div></div></div>
@@ -190,17 +189,17 @@
         <thead><tr>
           <th onclick="sortBy('codigo')">Código <span id="sort-codigo"></span></th>
           <th onclick="sortBy('detalle')">Detalle <span id="sort-detalle"></span></th>
-          <th onclick="sortBy('ubi')">Ubic. <span id="sort-ubi"></span></th>
-          <th onclick="sortBy('deposito')">Dep. <span id="sort-deposito"></span></th>
-          <th onclick="sortBy('pedweb')" style="text-align:right">Ped.Web <span id="sort-pedweb"></span></th>
-          <th onclick="sortBy('stk30')" style="text-align:right">STK30055 <span id="sort-stk30"></span></th>
+          <th onclick="sortBy('ubi')">Ubicación <span id="sort-ubi"></span></th>
+          <th onclick="sortBy('deposito')">Depósito <span id="sort-deposito"></span></th>
+          <th onclick="sortBy('pedweb')" style="text-align:right">Ped. Web <span id="sort-pedweb"></span></th>
+          <th onclick="sortBy('stk30')" style="text-align:right">STK 30055 <span id="sort-stk30"></span></th>
           <th onclick="sortBy('volta')" style="text-align:right">STKVOLTA <span id="sort-volta"></span></th>
           <th onclick="sortBy('tp')" style="text-align:right">STK_TP <span id="sort-tp"></span></th>
-          <th onclick="sortBy('winner')">Mayor <span id="sort-winner"></span></th>
+          <th onclick="sortBy('winner')">Mayor Stock <span id="sort-winner"></span></th>
           <th onclick="sortBy('inconsistent')">Estado <span id="sort-inconsistent"></span></th>
           <th style="text-align:right">STKoriTP</th>
           <th style="text-align:right">STKoriV</th>
-          <th style="min-width:120px">Observación</th>
+          <th>Observación</th>
         </tr></thead>
         <tbody id="tbody"></tbody>
       </table>
@@ -214,28 +213,11 @@ let allRows = [];
 let sortCol = null;
 let sortDir = 1;
 const observations = {};
-let geminiKey = localStorage.getItem('gemini_key') || '';
-
-window.addEventListener('DOMContentLoaded', () => {
-  if (geminiKey) {
-    document.getElementById('gemini-key-input').value = '••••••••••••••••';
-    document.getElementById('key-saved').style.display = 'inline';
-  }
-  renderChips();
-});
-
-function saveGeminiKey() {
-  const val = document.getElementById('gemini-key-input').value.trim();
-  if (!val || val.includes('•')) return;
-  geminiKey = val;
-  localStorage.setItem('gemini_key', val);
-  document.getElementById('gemini-key-input').value = '••••••••••••••••';
-  document.getElementById('key-saved').style.display = 'inline';
-}
 
 const dropzone = document.getElementById('dropzone');
 const fileInput = document.getElementById('fileInput');
-const status = document.getElementById('status');
+const status    = document.getElementById('status');
+
 dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('over'); });
 dropzone.addEventListener('dragleave', () => dropzone.classList.remove('over'));
 dropzone.addEventListener('drop', e => { e.preventDefault(); dropzone.classList.remove('over'); const f = e.dataTransfer.files[0]; if (f) processFile(f); });
@@ -263,45 +245,49 @@ function processFile(file) {
       const ws = wb.Sheets[wb.SheetNames[0]];
       const data = XLSX.utils.sheet_to_json(ws, {defval:0});
       const cols = Object.keys(data[0] || {});
-      const find = terms => cols.find(c => terms.some(t => c.toLowerCase().replace(/[_\s]/g,'').includes(t.replace(/[_\s]/g,''))));
-      const voltaCol  = find(['stkvolta']);
-      const tpCol     = find(['stk_tp','stktp']);
-      const codeCol   = find(['codigo','código']);
-      const detCol    = find(['detalle']);
-      const ubiCol    = find(['ubi_web','ubiweb']);
-      const stk30Col  = cols.find(c => c.toLowerCase() === 'stk_30055');
-      const pedWebCol = cols.find(c => c.toLowerCase() === 'ped_web');
-      const vtaWebCol = cols.find(c => c.toLowerCase() === 'vta_web');
-      const codoripCol  = cols.find(c => c.toLowerCase() === 'codoritp');
-      const detaoripCol = cols.find(c => c.toLowerCase() === 'detaoritp');
-      const stkoripCol  = cols.find(c => c.toLowerCase() === 'stkoritp');
-      const stkorivCol  = cols.find(c => c.toLowerCase() === 'stkorivi');
+      const exact = name => cols.find(c => c.toLowerCase() === name);
+      const fuzzy = terms => cols.find(c => terms.some(t => c.toLowerCase().replace(/_/g,'').includes(t.replace(/_/g,''))));
 
-      if (!voltaCol || !tpCol) { status.textContent = '✗ No se encontraron columnas stkvolta/stk_tp.'; status.className='err'; return; }
+      const voltaCol    = fuzzy(['stkvolta']);
+      const tpCol       = fuzzy(['stk_tp','stktp']);
+      const codeCol     = fuzzy(['codigo']);
+      const detCol      = fuzzy(['detalle']);
+      const ubiCol      = exact('ubi_web');
+      const stk30Col    = exact('stk_30055');
+      const pedWebCol   = exact('ped_web');
+      const codoripCol  = exact('codoritp');
+      const detaoripCol = exact('detaoritp');
+      const stkoripCol  = exact('stkoritp');
+      const stkorivCol  = exact('stkorivi');
+
+      if (!voltaCol || !tpCol) {
+        status.textContent = `✗ No se encontraron columnas. Columnas disponibles: ${cols.join(', ')}`;
+        status.className = 'err'; return;
+      }
 
       // Build subrows map
       const subRowsMap = {};
       if (codoripCol) {
-        const subGrouped = {};
         data.forEach(r => {
           const cod = r[codoripCol];
           if (!cod || cod === 0) return;
-          const key = String(codeCol ? r[codeCol] : '');
+          const key    = String(codeCol ? r[codeCol] : '');
           const subKey = String(cod);
-          if (!subGrouped[key]) subGrouped[key] = {};
-          if (!subGrouped[key][subKey]) subGrouped[key][subKey] = {
-            codoritp: String(cod),
-            detaoritp: detaoripCol ? String(r[detaoripCol] || '').replace(/^\./,'') : '',
-            stkoritp: 0, stkorivi: 0
+          if (!subRowsMap[key]) subRowsMap[key] = {};
+          if (!subRowsMap[key][subKey]) subRowsMap[key][subKey] = {
+            codoritp:  subKey,
+            detaoritp: detaoripCol ? String(r[detaoripCol]||'').replace(/^\./,'') : '',
+            stkoritp:  0,
+            stkorivi:  0
           };
-          subGrouped[key][subKey].stkoritp += parseFloat(stkoripCol ? r[stkoripCol] : 0) || 0;
-          subGrouped[key][subKey].stkorivi += parseFloat(stkorivCol ? r[stkorivCol] : 0) || 0;
+          subRowsMap[key][subKey].stkoritp += parseFloat(stkoripCol ? r[stkoripCol] : 0)||0;
+          subRowsMap[key][subKey].stkorivi += parseFloat(stkorivCol ? r[stkorivCol] : 0)||0;
         });
-        Object.keys(subGrouped).forEach(k => { subRowsMap[k] = Object.values(subGrouped[k]); });
+        Object.keys(subRowsMap).forEach(k => { subRowsMap[k] = Object.values(subRowsMap[k]); });
       }
       window._subRowsMap = subRowsMap;
 
-      // Deduplicate main rows by codigo
+      // Deduplicate by codigo
       const seen = new Set();
       allRows = [];
       data.forEach(r => {
@@ -316,37 +302,34 @@ function processFile(file) {
         const inconsistent = (dep==='volta' && winner==='tp' && tp>0) || (dep==='tp' && winner==='volta' && volta>0);
         const stk30  = stk30Col  ? (parseFloat(r[stk30Col])||0)  : null;
         const pedweb = pedWebCol ? (parseFloat(r[pedWebCol])||0) : null;
-        const vtaweb = vtaWebCol ? (parseFloat(r[vtaWebCol])||0) : null;
-        allRows.push({codigo:cod, detalle:detCol?r[detCol]:'', ubi:ubi!==null?ubi:'—', dep, volta, tp, winner, inconsistent, stk30, pedweb, vtaweb});
+        allRows.push({codigo:cod, detalle:detCol?String(r[detCol]):'', ubi:ubi!==null?String(ubi):'—', dep, volta, tp, winner, inconsistent, stk30, pedweb});
       });
 
       const total     = allRows.length;
       const depVolta  = allRows.filter(r=>r.dep==='volta').length;
       const depTp     = allRows.filter(r=>r.dep==='tp').length;
       const warnCount = allRows.filter(r=>r.inconsistent).length;
-      const stk30Count= allRows.filter(r=>r.stk30===0).length;
+      const stk30zero = allRows.filter(r=>r.stk30===0).length;
 
-      document.getElementById('s-total').textContent    = total.toLocaleString('es-AR');
-      document.getElementById('s-dep-volta').textContent= depVolta.toLocaleString('es-AR');
-      document.getElementById('s-dep-tp').textContent   = depTp.toLocaleString('es-AR');
-      document.getElementById('s-warn').textContent     = warnCount.toLocaleString('es-AR');
-      document.getElementById('s-stk30').textContent    = stk30Count.toLocaleString('es-AR');
-      document.getElementById('card-warn').style.borderColor  = warnCount>0?'var(--amber)':'var(--border)';
-      document.getElementById('card-stk30').style.borderColor = stk30Count>0?'var(--ng-red)':'var(--border)';
+      document.getElementById('s-total').textContent     = total.toLocaleString('es-AR');
+      document.getElementById('s-dep-volta').textContent = depVolta.toLocaleString('es-AR');
+      document.getElementById('s-dep-tp').textContent    = depTp.toLocaleString('es-AR');
+      document.getElementById('s-warn').textContent      = warnCount.toLocaleString('es-AR');
+      document.getElementById('s-stk30').textContent     = stk30zero.toLocaleString('es-AR');
+      document.getElementById('card-warn').style.borderColor  = warnCount>0 ? 'var(--amber)' : 'var(--border)';
+      document.getElementById('card-stk30').style.borderColor = stk30zero>0 ? 'var(--ng-red)' : 'var(--border)';
 
       status.textContent = `✓ ${file.name} — ${total} productos · ⚠ ${warnCount} inconsistencias`;
       status.className = 'ok';
       document.getElementById('results').style.display = 'block';
       document.getElementById('btn-download').disabled = false;
       document.getElementById('search').value = '';
-      document.getElementById('filter-dep').value = 'all';
-      document.getElementById('filter-stock').value = 'all';
-      document.getElementById('filter-stk30').value = 'all';
-      document.getElementById('filter-inc').value = 'all';
+      ['filter-dep','filter-stock','filter-stk30','filter-inc'].forEach(id => document.getElementById(id).value = 'all');
       sortCol = null; sortDir = 1;
       renderTable();
     } catch(err) {
-      status.textContent = '✗ Error: ' + err.message; status.className='err';
+      status.textContent = '✗ Error: ' + err.message;
+      status.className = 'err';
       console.error(err);
     }
   };
@@ -354,79 +337,89 @@ function processFile(file) {
 }
 
 function sortBy(col) {
-  if (sortCol===col) sortDir*=-1; else {sortCol=col;sortDir=1;}
-  ['codigo','detalle','ubi','deposito','pedweb','stk30','volta','tp','winner','inconsistent'].forEach(c=>{
-    const el=document.getElementById('sort-'+c); if(el) el.textContent='';
+  if (sortCol===col) sortDir*=-1; else {sortCol=col; sortDir=1;}
+  ['codigo','detalle','ubi','deposito','pedweb','stk30','volta','tp','winner','inconsistent'].forEach(c => {
+    const el = document.getElementById('sort-'+c); if (el) el.textContent='';
   });
-  const el=document.getElementById('sort-'+col); if(el) el.textContent=sortDir===1?' ↑':' ↓';
+  const el = document.getElementById('sort-'+col);
+  if (el) el.textContent = sortDir===1 ? ' ↑' : ' ↓';
   renderTable();
 }
 
 function renderTable() {
-  const q     = document.getElementById('search').value.toLowerCase();
-  const fdep  = document.getElementById('filter-dep').value;
-  const fstk  = document.getElementById('filter-stock').value;
-  const fstk30= document.getElementById('filter-stk30').value;
-  const finc  = document.getElementById('filter-inc').value;
+  const q      = document.getElementById('search').value.toLowerCase();
+  const fdep   = document.getElementById('filter-dep').value;
+  const fstk   = document.getElementById('filter-stock').value;
+  const fstk30 = document.getElementById('filter-stk30').value;
+  const finc   = document.getElementById('filter-inc').value;
 
   let rows = allRows.filter(r => {
-    const matchQ = !q || String(r.codigo).toLowerCase().includes(q) || r.detalle.toLowerCase().includes(q);
-    if (!matchQ) return false;
+    if (q && !String(r.codigo).toLowerCase().includes(q) && !r.detalle.toLowerCase().includes(q)) return false;
     if (fdep==='volta' && r.dep!=='volta') return false;
     if (fdep==='tp'    && r.dep!=='tp')    return false;
     if (fstk==='volta' && r.winner!=='volta') return false;
     if (fstk==='tp'    && r.winner!=='tp')    return false;
     if (fstk==='igual' && r.winner!=='igual') return false;
-    if (fstk30==='zero'     && r.stk30!==0)  return false;
-    if (fstk30==='constock' && r.stk30===0)  return false;
+    if (fstk30==='zero'     && r.stk30!==0)   return false;
+    if (fstk30==='constock' && r.stk30===0)   return false;
     if (finc==='inc' && !r.inconsistent) return false;
     if (finc==='ok'  &&  r.inconsistent) return false;
     return true;
   });
 
   if (sortCol) {
-    const order={volta:1,tp:2,igual:3};
-    rows=[...rows].sort((a,b)=>{
-      let av,bv;
-      if (sortCol==='winner'){av=order[a.winner]||9;bv=order[b.winner]||9;}
-      else if(sortCol==='inconsistent'){av=a.inconsistent?0:1;bv=b.inconsistent?0:1;}
-      else if(sortCol==='deposito'){av=a.dep;bv=b.dep;}
-      else if(sortCol==='stk30'){av=a.stk30??999999;bv=b.stk30??999999;}
-      else if(sortCol==='pedweb'){av=a.pedweb??999999;bv=b.pedweb??999999;}
-      else{av=a[sortCol];bv=b[sortCol];}
-      if(typeof av==='string') return sortDir*av.localeCompare(bv,'es');
-      return sortDir*(av-bv);
+    const order = {volta:1,tp:2,igual:3};
+    rows = [...rows].sort((a,b) => {
+      let av, bv;
+      if (sortCol==='winner')       { av=order[a.winner]||9; bv=order[b.winner]||9; }
+      else if (sortCol==='inconsistent') { av=a.inconsistent?0:1; bv=b.inconsistent?0:1; }
+      else if (sortCol==='deposito') { av=a.dep; bv=b.dep; }
+      else if (sortCol==='stk30')    { av=a.stk30??999999; bv=b.stk30??999999; }
+      else if (sortCol==='pedweb')   { av=a.pedweb??999999; bv=b.pedweb??999999; }
+      else { av=a[sortCol]; bv=b[sortCol]; }
+      if (typeof av==='string') return sortDir * av.localeCompare(bv,'es');
+      return sortDir * (av - bv);
     });
   }
 
   const subMap = window._subRowsMap || {};
 
   document.getElementById('tbody').innerHTML = rows.map(r => {
-    const stockBadge = r.winner==='volta'?'<span class="badge b-volta">stkvolta</span>':r.winner==='tp'?'<span class="badge b-tp">stk_tp</span>':'<span class="badge b-igual">iguales</span>';
-    const depBadge   = r.dep==='volta'?'<span class="dep dep-volta">Volta</span>':r.dep==='tp'?'<span class="dep dep-tp">TP</span>':'<span class="dep" style="background:#f0f2f0;color:#888">Otro</span>';
-    const stateBadge = r.inconsistent?'<span class="badge b-warn">⚠ Inconsistente</span>':'<span class="badge b-ok">OK</span>';
+    const stockBadge = r.winner==='volta'
+      ? '<span class="badge b-volta">stkvolta</span>'
+      : r.winner==='tp' ? '<span class="badge b-tp">stk_tp</span>'
+      : '<span class="badge b-igual">iguales</span>';
+    const depBadge = r.dep==='volta'
+      ? '<span class="dep dep-volta">Volta</span>'
+      : r.dep==='tp' ? '<span class="dep dep-tp">TP</span>'
+      : '<span class="dep" style="background:#f0f2f0;color:#888">Otro</span>';
+    const stateBadge = r.inconsistent
+      ? '<span class="badge b-warn">⚠ Inconsistente</span>'
+      : '<span class="badge b-ok">OK</span>';
+
     const subs = subMap[String(r.codigo)] || [];
     const stkoritp_total = subs.reduce((a,s)=>a+s.stkoritp,0);
     const stkorivi_total = subs.reduce((a,s)=>a+s.stkorivi,0);
 
     const mainRow = `<tr class="${r.inconsistent?'inconsistent':''}${r.stk30===0?' zero-stk30':''}">
       <td class="mono">${r.codigo}</td>
-      <td class="detalle-cell" title="${r.detalle}">${r.detalle}</td>
+      <td style="white-space:nowrap">${r.detalle}</td>
       <td class="mono" style="color:var(--text-muted)">${r.ubi}</td>
       <td>${depBadge}</td>
-      <td class="num">${r.pedweb!==null?r.pedweb.toLocaleString('es-AR'):'—'}</td>
-      <td class="num" style="${r.stk30===0?'color:var(--ng-red);font-weight:700;':''}">${r.stk30!==null?r.stk30.toLocaleString('es-AR'):'—'}</td>
+      <td class="num">${r.pedweb!==null ? r.pedweb.toLocaleString('es-AR') : '—'}</td>
+      <td class="num" style="${r.stk30===0?'color:var(--ng-red);font-weight:700;':''}">${r.stk30!==null ? r.stk30.toLocaleString('es-AR') : '—'}</td>
       <td class="num">${r.volta.toLocaleString('es-AR')}</td>
       <td class="num">${r.tp.toLocaleString('es-AR')}</td>
       <td>${stockBadge}</td>
       <td>${stateBadge}</td>
-      <td class="num" style="color:var(--text-muted)">${subs.length>0?stkoritp_total.toLocaleString('es-AR'):'—'}</td>
-      <td class="num" style="color:var(--text-muted)">${subs.length>0?stkorivi_total.toLocaleString('es-AR'):'—'}</td>
-      <td>${r.inconsistent?`<textarea class="obs-input" onchange="saveObs('${r.codigo}',this.value)" placeholder="Observación...">${observations[r.codigo]||''}</textarea>`:''}</td>
+      <td class="num" style="color:var(--text-muted)">${subs.length>0 ? stkoritp_total.toLocaleString('es-AR') : '—'}</td>
+      <td class="num" style="color:var(--text-muted)">${subs.length>0 ? stkorivi_total.toLocaleString('es-AR') : '—'}</td>
+      <td>${r.inconsistent ? `<textarea class="obs-input" onchange="saveObs('${r.codigo}',this.value)" placeholder="Observación...">${observations[r.codigo]||''}</textarea>` : ''}</td>
     </tr>`;
 
-    const subRows = subs.map(s=>`<tr class="sub-row">
-      <td colspan="2" style="padding-left:20px;font-style:italic">${s.detaoritp}</td>
+    const subRows = subs.map(s => `<tr class="sub-row">
+      <td></td>
+      <td style="padding-left:20px;font-style:italic;white-space:nowrap">${s.detaoritp}</td>
       <td colspan="2" class="mono" style="color:var(--ng-green-dark)">${s.codoritp}</td>
       <td colspan="5"></td>
       <td></td>
@@ -444,54 +437,67 @@ function renderTable() {
 function saveObs(codigo, value) { observations[codigo] = value; }
 
 function downloadInconsistencias() {
-  const inc = allRows.filter(r=>r.inconsistent);
+  const inc = allRows.filter(r => r.inconsistent);
   if (!inc.length) return;
-  const wsData=[['Código','Detalle','Ubicación','Depósito','Ped. Web','STK_30055','stkvolta','stk_tp','Mayor Stock','Observación']];
-  inc.forEach(r=>wsData.push([r.codigo,r.detalle,r.ubi,r.dep==='volta'?'Volta':'TP',r.pedweb??'',r.stk30??'',r.volta,r.tp,r.winner==='volta'?'stkvolta':r.winner==='tp'?'stk_tp':'iguales',observations[r.codigo]||'']));
-  const wb=XLSX.utils.book_new();
-  const ws=XLSX.utils.aoa_to_sheet(wsData);
-  ws['!cols']=[{wch:16},{wch:35},{wch:8},{wch:8},{wch:10},{wch:12},{wch:12},{wch:12},{wch:12},{wch:40}];
-  XLSX.utils.book_append_sheet(wb,ws,'Inconsistencias');
-  XLSX.writeFile(wb,`inconsistencias_${new Date().toISOString().slice(0,10)}.xlsx`);
+  const wsData = [['Código','Detalle','Ubicación','Depósito','Ped. Web','STK_30055','stkvolta','stk_tp','Mayor Stock','Observación']];
+  inc.forEach(r => wsData.push([
+    r.codigo, r.detalle, r.ubi,
+    r.dep==='volta'?'Volta':'TP',
+    r.pedweb??'', r.stk30??'',
+    r.volta, r.tp,
+    r.winner==='volta'?'stkvolta':r.winner==='tp'?'stk_tp':'iguales',
+    observations[r.codigo]||''
+  ]));
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.aoa_to_sheet(wsData);
+  ws['!cols'] = [{wch:16},{wch:40},{wch:8},{wch:8},{wch:10},{wch:12},{wch:12},{wch:12},{wch:12},{wch:40}];
+  XLSX.utils.book_append_sheet(wb, ws, 'Inconsistencias');
+  XLSX.writeFile(wb, `inconsistencias_${new Date().toISOString().slice(0,10)}.xlsx`);
 }
 
-// GEMINI
-const CHIPS = [
+// AI CHAT
+let aiOpen = false;
+let aiLoading = false;
+
+const AI_CHIPS = [
   "Listá todas las inconsistencias",
   "¿Qué productos de TP tienen stk_30055 en 0?",
   "¿Qué productos de Volta tienen stk_30055 en 0?",
-  "¿Cuántos productos no tienen stock en ningún depósito?",
   "Resumí el estado general del stock",
   "Productos de TP con stk_tp=0 pero con stock en Volta",
   "Productos de Volta con stkvolta=0 pero con stock en TP"
 ];
 
-function renderChips() {
-  document.getElementById('gemini-chips').innerHTML = CHIPS.map(c =>
-    `<button class="gemini-chip" onclick="document.getElementById('gemini-input').value=this.textContent;askGemini()">${c}</button>`
+function toggleAI() {
+  aiOpen = !aiOpen;
+  document.getElementById('ai-panel').classList.toggle('open', aiOpen);
+  if (aiOpen) renderAIChips();
+}
+
+function renderAIChips() {
+  document.getElementById('ai-chips').innerHTML = AI_CHIPS.map(c =>
+    `<button class="ai-chip" onclick="document.getElementById('ai-input').value=this.textContent;sendAI()">${c}</button>`
   ).join('');
 }
 
-function buildContext() {
-  const inc = allRows.filter(r=>r.inconsistent);
-  const stk30zero = allRows.filter(r=>r.stk30===0);
-  const ambos0 = allRows.filter(r=>r.volta===0&&r.tp===0);
-  const tpStk0voltaHas = allRows.filter(r=>r.dep==='tp'&&r.tp===0&&r.volta>0);
-  const voltaStk0tpHas = allRows.filter(r=>r.dep==='volta'&&r.volta===0&&r.tp>0);
-  return `Sos un asistente de stock para New Garden. Respondé en español, claro y con listas cuando sea útil.
-Al final de tu respuesta, si la pregunta implica filtrar productos, agregá una línea con este formato exacto:
-FILTRO: dep=volta|tp|all, stock=volta|tp|igual|all, stk30=zero|constock|all, inc=inc|ok|all
-Solo incluí FILTRO si tiene sentido aplicarlo.
+function buildAIContext() {
+  const inc       = allRows.filter(r => r.inconsistent);
+  const stk30zero = allRows.filter(r => r.stk30 === 0);
+  const ambos0    = allRows.filter(r => r.volta === 0 && r.tp === 0);
+  const tpSinStk  = allRows.filter(r => r.dep === 'tp'    && r.tp    === 0 && r.volta > 0);
+  const vSinStk   = allRows.filter(r => r.dep === 'volta' && r.volta === 0 && r.tp    > 0);
 
-DATOS:
-- Total: ${allRows.length} productos
+  return `Sos un asistente de stock para New Garden. Respondé en español, de forma clara y concisa.
+
+RESUMEN:
+- Total productos: ${allRows.length}
 - Depósito Volta: ${allRows.filter(r=>r.dep==='volta').length}
 - Depósito TP: ${allRows.filter(r=>r.dep==='tp').length}
 - Inconsistencias: ${inc.length}
-- Sin stk_30055: ${stk30zero.length}
+- Sin stock dep.30055: ${stk30zero.length}
 - Sin stock en ningún dep: ${ambos0.length}
-- TP stk_tp=0 pero tiene Volta: ${tpStk0voltaHas.length}
-- Volta stkvolta=0 pero tiene TP: ${voltaStk0tpHas.length}
+- TP sin stk_tp pero tiene Volta: ${tpSinStk.length}
+- Volta sin stkvolta pero tiene TP: ${vSinStk.length}
 
 INCONSISTENCIAS (máx 30):
 ${inc.slice(0,30).map(r=>`- ${r.detalle} | dep:${r.dep} | volta:${r.volta} | tp:${r.tp} | stk30:${r.stk30}`).join('\n')}
@@ -500,48 +506,123 @@ SIN STK_30055 (máx 20):
 ${stk30zero.slice(0,20).map(r=>`- ${r.detalle} | dep:${r.dep} | volta:${r.volta} | tp:${r.tp}`).join('\n')}`;
 }
 
-async function askGemini() {
-  if (!geminiKey) { alert('Primero guardá tu API key de Gemini.'); return; }
-  if (allRows.length === 0) { alert('Primero cargá tu archivo Excel.'); return; }
-  const q = document.getElementById('gemini-input').value.trim();
+async function sendAI() {
+  if (aiLoading) return;
+  const input = document.getElementById('ai-input');
+  const q = input.value.trim();
   if (!q) return;
-  const sendBtn = document.getElementById('gemini-send');
-  const result  = document.getElementById('gemini-result');
-  const filterApplied = document.getElementById('gemini-filter-applied');
-  sendBtn.disabled = true; sendBtn.textContent = 'Pensando...';
-  result.textContent = ''; result.classList.remove('show');
-  filterApplied.textContent = '';
+
+  if (allRows.length === 0) {
+    appendAIMsg('bot', 'Primero cargá tu archivo Excel.');
+    return;
+  }
+
+  appendAIMsg('user', q);
+  input.value = '';
+  document.getElementById('ai-chips').innerHTML = '';
+
+  const loadingEl = appendAIMsg('bot', 'Analizando...', true);
+  aiLoading = true;
+  document.getElementById('ai-send').disabled = true;
+
   try {
-    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`, {
+    const system = buildAIContext() + `
+
+IMPORTANTE: Al final de tu respuesta siempre incluí esta línea con el formato exacto:
+FILTROS: dep=all|volta|tp, stock=all|volta|tp|igual, stk30=all|zero|constock, inc=all|inc|ok
+
+Ejemplos:
+- inconsistencias → FILTROS: dep=all, stock=all, stk30=all, inc=inc
+- productos de TP con stk_30055 en 0 → FILTROS: dep=tp, stock=all, stk30=zero, inc=all
+- resumen general → FILTROS: dep=all, stock=all, stk30=all, inc=all`;
+
+    const res = await fetch('https://stock-ai.depositoweb.workers.dev', {
       method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({contents:[{parts:[{text: buildContext() + '\n\nPregunta: ' + q}]}]})
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 1000,
+        system,
+        messages: [{ role: 'user', content: q }]
+      })
     });
     const data = await res.json();
-    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || data.error?.message || 'Sin respuesta.';
-    const lines = text.split('\n');
-    const filtroLine = lines.find(l => l.startsWith('FILTRO:'));
-    const displayText = lines.filter(l => !l.startsWith('FILTRO:')).join('\n').trim();
-    result.textContent = displayText;
-    result.classList.add('show');
+    const fullText = data.content?.map(b => b.text || '').join('') || data.error?.message || 'Sin respuesta.';
+
+    const lines = fullText.split('\n');
+    const filtroLine = lines.find(l => l.trim().startsWith('FILTROS:'));
+    const displayText = lines.filter(l => !l.trim().startsWith('FILTROS:')).join('\n').trim();
+
+    loadingEl.classList.remove('loading');
+    loadingEl.textContent = displayText;
+
     if (filtroLine) {
       const params = {};
-      filtroLine.replace('FILTRO:','').trim().split(',').forEach(p => {
+      filtroLine.replace('FILTROS:','').trim().split(',').forEach(p => {
         const [k,v] = p.trim().split('=');
         if (k && v) params[k.trim()] = v.trim();
       });
-      let applied = [];
-      if (params.dep && params.dep!=='all') { document.getElementById('filter-dep').value=params.dep; applied.push(`Depósito: ${params.dep}`); }
-      if (params.stock && params.stock!=='all') { document.getElementById('filter-stock').value=params.stock; applied.push(`Stock: ${params.stock}`); }
-      if (params.stk30 && params.stk30!=='all') { document.getElementById('filter-stk30').value=params.stk30; applied.push(`STK30055: ${params.stk30}`); }
-      if (params.inc && params.inc!=='all') { document.getElementById('filter-inc').value=params.inc; applied.push(`Estado: ${params.inc}`); }
-      if (applied.length>0) { renderTable(); filterApplied.textContent=`🔍 Filtros aplicados: ${applied.join(' · ')}`; }
+
+      const applied = [];
+      document.getElementById('filter-dep').value   = (params.dep   && params.dep   !== 'all') ? (applied.push(params.dep   === 'volta' ? 'Depósito Volta' : 'Depósito TP'),    params.dep)   : 'all';
+      document.getElementById('filter-stock').value = (params.stock && params.stock !== 'all') ? (applied.push('Mayor ' + params.stock),                                         params.stock) : 'all';
+      document.getElementById('filter-stk30').value = (params.stk30 && params.stk30 !== 'all') ? (applied.push(params.stk30 === 'zero' ? 'STK30055=0' : 'STK30055>0'),           params.stk30) : 'all';
+      document.getElementById('filter-inc').value   = (params.inc   && params.inc   !== 'all') ? (applied.push(params.inc   === 'inc'  ? 'Inconsistentes' : 'Solo OK'),           params.inc)   : 'all';
+
+      renderTable();
+
+      const count = [...document.querySelectorAll('#tbody tr')].filter(r => !r.classList.contains('sub-row')).length;
+      appendAIMsg('bot', `✓ Mostrando en tabla: ${applied.join(' · ')} — ${count} productos`);
+
+      setTimeout(() => {
+        aiOpen = false;
+        document.getElementById('ai-panel').classList.remove('open');
+        document.querySelector('.tbl-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 1000);
     }
+
   } catch(err) {
-    result.textContent = 'Error: ' + err.message; result.classList.add('show');
+    loadingEl.classList.remove('loading');
+    loadingEl.textContent = 'Error de conexión.';
   }
-  sendBtn.disabled=false; sendBtn.textContent='Preguntar';
+
+  aiLoading = false;
+  document.getElementById('ai-send').disabled = false;
+  renderAIChips();
 }
+function appendAIMsg(role, text, loading = false) {
+  const el = document.createElement('div');
+  el.className = `ai-msg ${role}${loading ? ' loading' : ''}`;
+  el.textContent = text;
+  const msgs = document.getElementById('ai-messages');
+  msgs.appendChild(el);
+  msgs.scrollTop = msgs.scrollHeight;
+  return el;
+}
+
 </script>
+
+<!-- AI FAB -->
+<button class="ai-fab" id="ai-fab" onclick="toggleAI()" title="Consultar con IA">🤖</button>
+
+<div class="ai-panel" id="ai-panel">
+  <div class="ai-header">
+    <div>
+      <div class="ai-header-title">Asistente de Stock</div>
+      <div class="ai-header-sub">Powered by Claude</div>
+    </div>
+    <button class="ai-close" onclick="toggleAI()">×</button>
+  </div>
+  <div class="ai-red-bar"></div>
+  <div class="ai-messages" id="ai-messages">
+    <div class="ai-msg bot">¡Hola! Cargá tu archivo y preguntame lo que quieras sobre el stock 📊</div>
+  </div>
+  <div class="ai-chips" id="ai-chips"></div>
+  <div class="ai-input-row">
+    <input class="ai-input" id="ai-input" placeholder="Preguntá sobre el stock…" onkeydown="if(event.key==='Enter') sendAI()">
+    <button class="ai-send" id="ai-send" onclick="sendAI()">➤</button>
+  </div>
+</div>
+
 </body>
 </html>
