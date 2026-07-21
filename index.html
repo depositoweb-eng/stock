@@ -489,6 +489,15 @@ function buildAIContext() {
 
   return `Sos un asistente de stock para New Garden. Respondé en español, de forma clara y concisa.
 
+IMPORTANTE: Al final de tu respuesta, si la pregunta implica mostrar o filtrar productos, agregá una línea con este formato exacto (sin explicación extra):
+FILTRO: dep=volta|tp|all, stock=volta|tp|igual|all, stk30=zero|constock|all, inc=inc|ok|all
+Ejemplos:
+- "mostrame las inconsistencias" → FILTRO: dep=all, stock=all, stk30=all, inc=inc
+- "productos de TP sin stk_30055" → FILTRO: dep=tp, stock=all, stk30=zero, inc=all
+- "productos de Volta con mayor stkvolta" → FILTRO: dep=volta, stock=volta, stk30=all, inc=all
+- "productos sin stock en ningún lado" → FILTRO: dep=all, stock=igual, stk30=all, inc=all
+Solo incluí FILTRO si la pregunta pide ver productos específicos. Si es una pregunta de resumen o número, no lo incluyas.
+
 RESUMEN:
 - Total productos: ${allRows.length}
 - Depósito Volta: ${allRows.filter(r=>r.dep==='volta').length}
